@@ -1,5 +1,7 @@
 <?php
 
+namespace Giunashvili\Spear\Tests\Languages;
+
 use Giunashvili\Spear\Spear;
 use PHPUnit\Framework\TestCase;
 

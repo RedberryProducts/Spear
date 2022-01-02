@@ -2,8 +2,8 @@
 
 namespace Giunashvili\Spear\Handlers;
 
-use Giunashvili\Spear\Contracts\Data;
-use Giunashvili\Spear\Contracts\Handler;
+use Giunashvili\Spear\Interfaces\Data;
+use Giunashvili\Spear\Interfaces\Handler;
 use Giunashvili\Spear\Handlers\BaseHandler;
 
 class CppHandler extends BaseHandler implements Handler

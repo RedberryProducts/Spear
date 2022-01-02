@@ -1,6 +1,6 @@
 <?php
 
-namespace Giunashvili\Spear\Contracts;
+namespace Giunashvili\Spear\Interfaces;
 
 interface Data
 {

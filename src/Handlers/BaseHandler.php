@@ -2,7 +2,7 @@
 
 namespace Giunashvili\Spear\Handlers;
 
-use Giunashvili\Spear\Contracts\Data;
+use Giunashvili\Spear\Interfaces\Data;
 
 use Giunashvili\Spear\DataStructures\Data as OutputData;
 
@@ -34,6 +34,11 @@ class BaseHandler
      * The interpreter program.
      */
     protected string $interpreter;
+
+    /**
+     * Timeout for the program to run.
+     */
+    protected int $timeout = 3;
     
 
     public function setImage(string $image = '')
@@ -56,9 +61,20 @@ class BaseHandler
         $this->compiler = $compiler;
     }
 
+    public function setInterpreter(string $interpreter)
+    {
+        $this->interpreter = $interpreter;
+    }
+
     public function interpret()
     {
+        $script = $this->prepareScriptForInterpretation();
+        $output = [];
+        $resultCode = 0;
 
+        $this->runInDocker($script, $output, $resultCode);
+
+        return $this->formatOutput($output, $resultCode);
     }
 
     public function compileAndRun(): Data
@@ -117,6 +133,29 @@ class BaseHandler
     private function prepareCompileAndRunScript(): string
     {
         $encodedCode = base64_encode($this->code);
+        $timeout = $this->timeout . 's';
+        
+        if ($this->input !== '')
+        {
+            $encodedInput = base64_encode($this->input);            
+            return <<<END
+                echo $encodedCode | base64 -d > program.run;
+                $this->compiler program.run;
+                echo $encodedInput | base64 -d | timeout $timeout ./a.out; 
+            END;
+        }
+
+        return <<<END
+            echo $encodedCode | base64 -d > program.run;
+            $this->compiler program.run;
+            timeout $timeout ./a.out; 
+        END;
+    }
+
+    private function prepareScriptForInterpretation()
+    {
+        $encodedCode = base64_encode($this->code);
+        $timeout = $this->timeout . 's';
         
         if ($this->input !== '')
         {
@@ -124,15 +163,13 @@ class BaseHandler
 
             return <<<END
                 echo $encodedCode | base64 -d > program.run;
-                $this->compiler program.run;
-                echo $encodedInput | base64 -d | timeout 3s ./a.out; 
+                echo $encodedInput | base64 -d | timeout $timeout $this->interpreter program.run; 
             END;
         }
 
         return <<<END
             echo $encodedCode | base64 -d > program.run;
-            $this->compiler program.run;
-            timeout 3s ./a.out; 
+            timeout $timeout $this->interpreter program.run; 
         END;
     }
 

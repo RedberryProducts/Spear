@@ -2,7 +2,7 @@
 
 namespace Giunashvili\Spear\DataStructures;
 
-use Giunashvili\Spear\Contracts\Data as ContractsData;
+use Giunashvili\Spear\Interfaces\Data as ContractsData;
 
 class Data implements ContractsData
 {
