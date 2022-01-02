@@ -6,6 +6,7 @@ use Giunashvili\Spear\Interfaces\Data;
 use Giunashvili\Spear\Handlers\CppHandler;
 use Giunashvili\Spear\Handlers\NodeHandler;
 use Giunashvili\Spear\Handlers\PHPHandler;
+use Giunashvili\Spear\Handlers\PythonHandler;
 
 class Spear
 {
@@ -15,10 +16,13 @@ class Spear
 
 	const PHP_8 = 'php:8.1';
 
+	const PYTHON_3 = 'python:3.10';
+
 	private array $handlers = [
-		self::CPP     => CppHandler::class,
-		self::NODE_14 => NodeHandler::class,
-		self::PHP_8   => PHPHandler::class,
+		self::CPP      => CppHandler::class,
+		self::NODE_14  => NodeHandler::class,
+		self::PHP_8    => PHPHandler::class,
+		self::PYTHON_3 => PythonHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)
