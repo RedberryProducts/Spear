@@ -5,12 +5,14 @@ namespace Giunashvili\Spear;
 use Giunashvili\Spear\Interfaces\Data;
 use Giunashvili\Spear\Handlers\CppHandler;
 use Giunashvili\Spear\Handlers\NodeHandler;
+use Giunashvili\Spear\Handlers\PHPHandler;
 
 class Spear
 {
 	private array $handlers = [
 		'cpp'  => CppHandler::class,
 		'node:14' => NodeHandler::class,
+		'php:8.1' => PHPHandler::class,
 	];
 
 	public function __construct(private string $language = 'cpp')

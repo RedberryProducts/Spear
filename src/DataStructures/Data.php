@@ -26,12 +26,12 @@ class Data implements ContractsData
 
 	public function setErrorMessage(string $error): void
 	{
-		$this->error = $error;
+		$this->error = trim($error);
 	}
 
 	public function setOutput(string $output): void
 	{
-		$this->output = $output;
+		$this->output = trim($output);
 	}
 
 	public function getResultCode(): int
