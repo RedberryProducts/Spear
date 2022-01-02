@@ -28,7 +28,8 @@ class PHPHandlerTest extends TestCase
 
     public function test_php_code_is_working_without_input(): void
     {
-        $spear = new Spear('php:8.1');
+        $spear = new Spear;
+        $spear->handler(Spear::PHP_8);
         $data = $spear->execute($this->rightCodeWithoutInput);
         $this->assertEquals(0, $data->getResultCode());
         $this->assertEquals('hello world!', $data->getOutput());
@@ -36,7 +37,8 @@ class PHPHandlerTest extends TestCase
 
     public function test_php_code_has_syntax_errors(): void
     {
-        $spear = new Spear('php:8.1');
+        $spear = new Spear;
+        $spear->handler(Spear::PHP_8);
         $data = $spear->execute($this->wrongCodeWithoutInput);
 
         $this->assertNotEquals(0, $data->getResultCode());
@@ -44,7 +46,8 @@ class PHPHandlerTest extends TestCase
 
     public function test_php_code_works_fine_with_input(): void
     {
-        $spear = new Spear('php:8.1');
+        $spear = new Spear;
+        $spear->handler(Spear::PHP_8);
         $data = $spear->execute($this->rightCodeWithInput, '500');
         
         $this->assertEquals(0, $data->getResultCode());

@@ -29,7 +29,9 @@ class NodeHandlerTest extends TestCase
 
     public function test_node_code_is_working_without_input(): void
     {
-        $spear = new Spear('node:14');
+        $spear = new Spear;
+        $spear->handler(Spear::NODE_14);
+
         $data = $spear->execute($this->rightCodeWithoutInput);
         
         $this->assertEquals(0, $data->getResultCode());
@@ -38,7 +40,8 @@ class NodeHandlerTest extends TestCase
 
     public function test_node_code_has_syntax_errors(): void
     {
-        $spear = new Spear('node:14');
+        $spear = new Spear;
+        $spear->handler(Spear::NODE_14);
         $data = $spear->execute($this->wrongCodeWithoutInput);
 
         $this->assertEquals(1, $data->getResultCode());
@@ -46,7 +49,8 @@ class NodeHandlerTest extends TestCase
 
     public function test_node_code_works_fine_with_input(): void
     {
-        $spear = new Spear('node:14');
+        $spear = new Spear;
+        $spear->handler(Spear::NODE_14);
         $data = $spear->execute($this->rightCodeWithInput, '123');
         
         $this->assertEquals(0, $data->getResultCode());
