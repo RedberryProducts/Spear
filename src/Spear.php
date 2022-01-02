@@ -10,17 +10,20 @@ use Giunashvili\Spear\Handlers\PHPHandler;
 class Spear
 {
 	const CPP = 'cpp';
+
 	const NODE_14 = 'node:14';
+
 	const PHP_8 = 'php:8.1';
 
 	private array $handlers = [
-		self::CPP  => CppHandler::class,
+		self::CPP     => CppHandler::class,
 		self::NODE_14 => NodeHandler::class,
-		self::PHP_8 => PHPHandler::class,
+		self::PHP_8   => PHPHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)
-	{}
+	{
+	}
 
 	public function execute(string $code, string $input = ''): Data
 	{

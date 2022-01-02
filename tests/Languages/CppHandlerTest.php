@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CppHandlerTest extends TestCase
 {
-    private string $rightCode = <<<END
+	private string $rightCode = <<<END
         #include <iostream>
         
         using namespace std;
@@ -21,7 +21,7 @@ class CppHandlerTest extends TestCase
         }
     END;
 
-    private string $erroredCode = <<<END
+	private string $erroredCode = <<<END
         #include <iostream>
             
         using namespace std;
@@ -35,19 +35,19 @@ class CppHandlerTest extends TestCase
         }
     END;
 
-    public function test_code_is_working(): void
-    {
-        $spear = new Spear;
+	public function test_code_is_working(): void
+	{
+		$spear = new Spear;
 
-        $data = $spear->execute($this->rightCode, '12');
-        $this->assertEquals(24, +$data->getOutput());
-        $this->assertEquals(0, $data->getResultCode());
-    }
+		$data = $spear->execute($this->rightCode, '12');
+		$this->assertEquals(24, +$data->getOutput());
+		$this->assertEquals(0, $data->getResultCode());
+	}
 
-    public function test_code_has_syntax_errors(): void
-    {
-        $spear = new Spear;
-        $data = $spear->execute($this->erroredCode, '117');
-        $this->assertNotEquals(0, $data->getResultCode());
-    }
+	public function test_code_has_syntax_errors(): void
+	{
+		$spear = new Spear;
+		$data = $spear->execute($this->erroredCode, '117');
+		$this->assertNotEquals(0, $data->getResultCode());
+	}
 }

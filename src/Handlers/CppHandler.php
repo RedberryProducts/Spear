@@ -4,7 +4,6 @@ namespace Giunashvili\Spear\Handlers;
 
 use Giunashvili\Spear\Interfaces\Data;
 use Giunashvili\Spear\Interfaces\Handler;
-use Giunashvili\Spear\Handlers\BaseHandler;
 
 class CppHandler extends BaseHandler implements Handler
 {
@@ -14,7 +13,7 @@ class CppHandler extends BaseHandler implements Handler
 		$this->setCode($code);
 		$this->setInput($input);
 		$this->setCompliler('g++ -x c++');
-		
+
 		return $this->compileAndRun();
 	}
 }
