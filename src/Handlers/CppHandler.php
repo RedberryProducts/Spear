@@ -12,6 +12,7 @@ class CppHandler extends BaseHandler implements Handler
 		$this->setImage('giunashvili/cpp');
 		$this->setCode($code);
 		$this->setInput($input);
+		$this->setCompiledFile('a.out');
 		$this->setCompliler('g++ -x c++');
 
 		return $this->compileAndRun();

@@ -8,6 +8,7 @@ use Giunashvili\Spear\Handlers\CppHandler;
 use Giunashvili\Spear\Handlers\NodeHandler;
 use Giunashvili\Spear\Handlers\PythonHandler;
 use Giunashvili\Spear\Handlers\RubyHandler;
+use Giunashvili\Spear\Handlers\RustHandler;
 
 class Spear
 {
@@ -21,12 +22,15 @@ class Spear
 
 	const RUBY_3 = 'ruby:3';
 
+	const RUST_1 = 'rust:1';
+
 	private array $handlers = [
 		self::CPP      => CppHandler::class,
 		self::NODE_14  => NodeHandler::class,
 		self::PHP_8    => PHPHandler::class,
 		self::PYTHON_3 => PythonHandler::class,
 		self::RUBY_3   => RubyHandler::class,
+		self::RUST_1   => RustHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)

@@ -30,6 +30,11 @@ class BaseHandler
 	protected string $compiler;
 
 	/**
+	 * The compiled file name.
+	 */
+	protected string $compiledFile;
+
+	/**
 	 * The interpreter program.
 	 */
 	protected string $interpreter;
@@ -62,6 +67,11 @@ class BaseHandler
 	public function setInterpreter(string $interpreter)
 	{
 		$this->interpreter = $interpreter;
+	}
+
+	public function setCompiledFile(string $name): void
+	{
+		$this->compiledFile = $name;
 	}
 
 	public function interpret()
@@ -139,14 +149,14 @@ class BaseHandler
 			return <<<END
                 echo $encodedCode | base64 -d > program.run;
                 $this->compiler program.run;
-                echo $encodedInput | base64 -d | timeout $timeout ./a.out; 
+                echo $encodedInput | base64 -d | timeout $timeout ./$this->compiledFile; 
             END;
 		}
 
 		return <<<END
             echo $encodedCode | base64 -d > program.run;
             $this->compiler program.run;
-            timeout $timeout ./a.out; 
+            timeout $timeout ./$this->compiledFile; 
         END;
 	}
 
