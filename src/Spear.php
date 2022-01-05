@@ -3,10 +3,11 @@
 namespace Giunashvili\Spear;
 
 use Giunashvili\Spear\Interfaces\Data;
+use Giunashvili\Spear\Handlers\PHPHandler;
 use Giunashvili\Spear\Handlers\CppHandler;
 use Giunashvili\Spear\Handlers\NodeHandler;
-use Giunashvili\Spear\Handlers\PHPHandler;
 use Giunashvili\Spear\Handlers\PythonHandler;
+use Giunashvili\Spear\Handlers\RubyHandler;
 
 class Spear
 {
@@ -18,11 +19,14 @@ class Spear
 
 	const PYTHON_3 = 'python:3.10';
 
+	const RUBY_3 = 'ruby:3';
+
 	private array $handlers = [
 		self::CPP      => CppHandler::class,
 		self::NODE_14  => NodeHandler::class,
 		self::PHP_8    => PHPHandler::class,
 		self::PYTHON_3 => PythonHandler::class,
+		self::RUBY_3   => RubyHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)
