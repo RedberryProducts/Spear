@@ -19,10 +19,7 @@ class PHPHandlerTest extends TestCase
 
 	private string $rightCodeWithInput = <<<'END'
         <?php
-
-        $file = fopen('php://stdin', 'r');
-        $data = +trim(fgets($file));
-
+        $data = + readline();
         echo $data / 2;
     END;
 

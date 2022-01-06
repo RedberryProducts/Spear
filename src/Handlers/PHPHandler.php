@@ -9,7 +9,7 @@ class PHPHandler extends BaseHandler implements Handler
 {
 	public function __invoke(string $code, string $input = ''): Data
 	{
-		$this->setImage('php:8.1-cli');
+		$this->setImage('giunashvili/php');
 		$this->setCode($code);
 		$this->setInput($input);
 		$this->setInterpreter('php');
