@@ -18,5 +18,5 @@
         "symfony/var-dumper": "^6.0",
         "friendsofphp/php-cs-fixer": "^3.4"
     },
-    "licence": "MIT"
+    "license": "MIT"
 }
