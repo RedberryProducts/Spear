@@ -44,6 +44,11 @@ class BaseHandler
 	 */
 	protected int $timeout = 3;
 
+	/**
+	 * Executor with which the compiled file should be executed.
+	 */
+	protected string $executor;
+
 	public function setImage(string $image = '')
 	{
 		$this->image = $image;
@@ -62,6 +67,11 @@ class BaseHandler
 	public function setCompliler(string $compiler = '')
 	{
 		$this->compiler = $compiler;
+	}
+
+	public function setExecutor(string $executor)
+	{
+		$this->executor = $executor;
 	}
 
 	public function setInterpreter(string $interpreter)
@@ -143,20 +153,24 @@ class BaseHandler
 		$encodedCode = base64_encode($this->code);
 		$timeout = $this->timeout . 's';
 
+		$executor = isset($this->executor) ? $this->executor . ' ' : './';
+		$executeCommand = $executor . $this->compiledFile;
+
 		if ($this->input !== '')
 		{
 			$encodedInput = base64_encode($this->input);
+
 			return <<<END
                 echo $encodedCode | base64 -d > program.run;
                 $this->compiler program.run;
-                echo $encodedInput | base64 -d | timeout $timeout ./$this->compiledFile; 
+                echo $encodedInput | base64 -d | timeout $timeout $executeCommand; 
             END;
 		}
 
 		return <<<END
             echo $encodedCode | base64 -d > program.run;
             $this->compiler program.run;
-            timeout $timeout ./$this->compiledFile; 
+            timeout $timeout $executeCommand; 
         END;
 	}
 

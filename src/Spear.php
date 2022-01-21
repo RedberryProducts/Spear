@@ -5,6 +5,7 @@ namespace Giunashvili\Spear;
 use Giunashvili\Spear\Interfaces\Data;
 use Giunashvili\Spear\Handlers\PHPHandler;
 use Giunashvili\Spear\Handlers\CppHandler;
+use Giunashvili\Spear\Handlers\CSharpHandler;
 use Giunashvili\Spear\Handlers\NodeHandler;
 use Giunashvili\Spear\Handlers\PythonHandler;
 use Giunashvili\Spear\Handlers\RubyHandler;
@@ -24,6 +25,8 @@ class Spear
 
 	const RUST_1 = 'rust:1';
 
+	const C_SHARP = 'csharp';
+
 	private array $handlers = [
 		self::CPP      => CppHandler::class,
 		self::NODE_14  => NodeHandler::class,
@@ -31,6 +34,7 @@ class Spear
 		self::PYTHON_3 => PythonHandler::class,
 		self::RUBY_3   => RubyHandler::class,
 		self::RUST_1   => RustHandler::class,
+		self::C_SHARP  => CSharpHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)
