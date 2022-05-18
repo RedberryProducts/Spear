@@ -92,7 +92,7 @@ class BaseHandler
 	}
 
 	/**
-	 * set compiler to set program.
+	 * Set compiler execution command.
 	 */
 	public function setCompliler(string $compiler = '')
 	{
@@ -100,7 +100,7 @@ class BaseHandler
 	}
 
 	/**
-	 * set executor to gather files.
+	 * Set command to execution compiled script.
 	 */
 	public function setExecutor(string $executor)
 	{
@@ -108,7 +108,7 @@ class BaseHandler
 	}
 
 	/**
-	 * set interpreter to choose image.
+	 * Set interpreter to execute the script.
 	 */
 	public function setInterpreter(string $interpreter)
 	{
@@ -116,7 +116,7 @@ class BaseHandler
 	}
 
 	/**
-	 * set compiled file put the name of container.
+	 * Set the file name of the executable program.
 	 */
 	public function setCompiledFile(string $name): void
 	{
@@ -124,7 +124,7 @@ class BaseHandler
 	}
 
 	/**
-	 * executed code is returned to formatted docker.
+	 * Pass the execution data to the docker container and then execute the script.
 	 */
 	public function interpret()
 	{
@@ -161,8 +161,7 @@ class BaseHandler
 	}
 
 	/**
-	 * creates new outputData object then put result code
-	 * then check result code and return created object.
+	 * Format and normalize return data from docker.
 	 */
 	private function formatOutput(array $output, int $resultCode): Data
 	{
@@ -188,9 +187,6 @@ class BaseHandler
 		return $resultCode === 0;
 	}
 
-	/**
-	 * @return string
-	 */
 	private function prepareTestForCompilationCommand()
 	{
 		$encodedScript = base64_encode($this->code);
@@ -201,9 +197,6 @@ class BaseHandler
         END;
 	}
 
-	/**
-	 * @return string
-	 */
 	private function prepareCompileAndRunScript(): string
 	{
 		$encodedCode = base64_encode($this->code);
@@ -230,9 +223,6 @@ class BaseHandler
         END;
 	}
 
-	/**
-	 * @return string
-	 */
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
@@ -254,13 +244,6 @@ class BaseHandler
         END;
 	}
 
-	/**
-	 * @param string $command
-	 * @param array  $output
-	 * @param int    $resultCode
-	 *
-	 * @return void
-	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
 		$command = base64_encode($command);
