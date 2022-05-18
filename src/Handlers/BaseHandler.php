@@ -49,41 +49,83 @@ class BaseHandler
 	 */
 	protected string $executor;
 
+	/**
+	 * The filename which will be used by interpretators.
+	 */
+	protected string $fileToInterpret;
+
+	public function __construct()
+	{
+		$this->fileToInterpret = 'program.run';
+	}
+
+	/**
+	 * Set docker image to use for container creation.
+	 */
 	public function setImage(string $image = '')
 	{
 		$this->image = $image;
 	}
 
+	/**
+	 * Set file name for interpretation.
+	 */
+	public function setFileToInterpret(string $fileName)
+	{
+		$this->fileToInterpret = $fileName;
+	}
+
+	/**
+	 * Set code to execute.
+	 */
 	public function setCode(string $code = '')
 	{
 		$this->code = $code;
 	}
 
+	/**
+	 * Set input to execute program.
+	 */
 	public function setInput(string $input = '')
 	{
 		$this->input = $input;
 	}
 
+	/**
+	 * set compiler to set program.
+	 */
 	public function setCompliler(string $compiler = '')
 	{
 		$this->compiler = $compiler;
 	}
 
+	/**
+	 * set executor to gather files.
+	 */
 	public function setExecutor(string $executor)
 	{
 		$this->executor = $executor;
 	}
 
+	/**
+	 * set interpreter to choose image.
+	 */
 	public function setInterpreter(string $interpreter)
 	{
 		$this->interpreter = $interpreter;
 	}
 
+	/**
+	 * set compiled file put the name of container.
+	 */
 	public function setCompiledFile(string $name): void
 	{
 		$this->compiledFile = $name;
 	}
 
+	/**
+	 * executed code is returned to formatted docker.
+	 */
 	public function interpret()
 	{
 		$script = $this->prepareScriptForInterpretation();
@@ -95,6 +137,10 @@ class BaseHandler
 		return $this->formatOutput($output, $resultCode);
 	}
 
+	/**
+	 * when there aren't compilable output compilable result code
+	 * creates new docker, run it and returns formatted docker.
+	 */
 	public function compileAndRun(): Data
 	{
 		$compilableOutput = [];
@@ -114,6 +160,10 @@ class BaseHandler
 		return $this->formatOutput($output, $resultCode);
 	}
 
+	/**
+	 * creates new outputData object then put result code
+	 * then check result code and return created object.
+	 */
 	private function formatOutput(array $output, int $resultCode): Data
 	{
 		$data = new OutputData();
@@ -138,6 +188,9 @@ class BaseHandler
 		return $resultCode === 0;
 	}
 
+	/**
+	 * @return string
+	 */
 	private function prepareTestForCompilationCommand()
 	{
 		$encodedScript = base64_encode($this->code);
@@ -148,6 +201,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * @return string
+	 */
 	private function prepareCompileAndRunScript(): string
 	{
 		$encodedCode = base64_encode($this->code);
@@ -174,6 +230,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * @return string
+	 */
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
@@ -184,17 +243,24 @@ class BaseHandler
 			$encodedInput = base64_encode($this->input);
 
 			return <<<END
-                echo $encodedCode | base64 -d > program.run;
-                echo $encodedInput | base64 -d | timeout $timeout $this->interpreter program.run; 
+                echo $encodedCode | base64 -d > $this->fileToInterpret;
+                echo $encodedInput | base64 -d | timeout $timeout $this->interpreter $this->fileToInterpret; 
             END;
 		}
 
 		return <<<END
-            echo $encodedCode | base64 -d > program.run;
-            timeout $timeout $this->interpreter program.run; 
+            echo $encodedCode | base64 -d > $this->fileToInterpret;
+            timeout $timeout $this->interpreter $this->fileToInterpret; 
         END;
 	}
 
+	/**
+	 * @param string $command
+	 * @param array  $output
+	 * @param int    $resultCode
+	 *
+	 * @return void
+	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
 		$command = base64_encode($command);
