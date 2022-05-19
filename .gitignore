@@ -1,4 +1,5 @@
 .vscode
 .idea
 vendor
-.php-cs-fixer.caches
+.php-cs-fixer.cache
+.phpunit.result.cache
