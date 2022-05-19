@@ -1,16 +1,16 @@
 <?php
 
-namespace Giunashvili\Spear;
+namespace Redberry\Spear;
 
-use Giunashvili\Spear\Handlers\GoHandler;
-use Giunashvili\Spear\Interfaces\Data;
-use Giunashvili\Spear\Handlers\PHPHandler;
-use Giunashvili\Spear\Handlers\CppHandler;
-use Giunashvili\Spear\Handlers\CSharpHandler;
-use Giunashvili\Spear\Handlers\NodeHandler;
-use Giunashvili\Spear\Handlers\PythonHandler;
-use Giunashvili\Spear\Handlers\RubyHandler;
-use Giunashvili\Spear\Handlers\RustHandler;
+use Redberry\Spear\Handlers\GoHandler;
+use Redberry\Spear\Interfaces\Data;
+use Redberry\Spear\Handlers\PHPHandler;
+use Redberry\Spear\Handlers\CppHandler;
+use Redberry\Spear\Handlers\CSharpHandler;
+use Redberry\Spear\Handlers\NodeHandler;
+use Redberry\Spear\Handlers\PythonHandler;
+use Redberry\Spear\Handlers\RubyHandler;
+use Redberry\Spear\Handlers\RustHandler;
 
 class Spear
 {

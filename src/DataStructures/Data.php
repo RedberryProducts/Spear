@@ -1,8 +1,8 @@
 <?php
 
-namespace Giunashvili\Spear\DataStructures;
+namespace Redberry\Spear\DataStructures;
 
-use Giunashvili\Spear\Interfaces\Data as ContractsData;
+use Redberry\Spear\Interfaces\Data as ContractsData;
 
 class Data implements ContractsData
 {

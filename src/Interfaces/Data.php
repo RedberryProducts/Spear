@@ -1,6 +1,6 @@
 <?php
 
-namespace Giunashvili\Spear\Interfaces;
+namespace Redberry\Spear\Interfaces;
 
 interface Data
 {

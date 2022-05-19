@@ -1,9 +1,9 @@
 <?php
 
-namespace Giunashvili\Spear\Handlers;
+namespace Redberry\Spear\Handlers;
 
-use Giunashvili\Spear\Interfaces\Data;
-use Giunashvili\Spear\DataStructures\Data as OutputData;
+use Redberry\Spear\Interfaces\Data;
+use Redberry\Spear\DataStructures\Data as OutputData;
 
 class BaseHandler
 {
