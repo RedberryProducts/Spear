@@ -7,6 +7,9 @@ use Redberry\Spear\Interfaces\Handler;
 
 class PythonHandler extends BaseHandler implements Handler
 {
+	/**
+	 * After setting details runs compilation and starts Python.
+	 */
 	public function __invoke(string $code, string $input = ''): Data
 	{
 		$this->setImage('python:3.10');

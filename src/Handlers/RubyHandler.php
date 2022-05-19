@@ -7,6 +7,9 @@ use Redberry\Spear\Interfaces\Handler;
 
 class RubyHandler extends BaseHandler implements Handler
 {
+	/**
+	 * After setting details runs compilation and starts Ruby.
+	 */
 	public function __invoke(string $code, string $input = ''): Data
 	{
 		$this->setImage('ruby:3.1');
