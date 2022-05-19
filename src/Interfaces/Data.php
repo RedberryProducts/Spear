@@ -5,37 +5,37 @@ namespace Redberry\Spear\Interfaces;
 interface Data
 {
 	/**
-	 * setResultCode must be used in class.
+	 * Set result code from code execution into docker container.
 	 */
 	public function setResultCode(int $code): void;
 
 	/**
-	 * setErrorMessage must be used in class.
+	 * Set error message returned from code execution into docker container.
 	 */
 	public function setErrorMessage(string $error): void;
 
 	/**
-	 * setOutput must be used in class.
+	 * Set output returned from code execution into docker container.
 	 */
 	public function setOutput(string $output): void;
 
 	/**
-	 * getResultCode must be used in class.
+	 * Get result code from code execution into docker container.
 	 */
 	public function getResultCode(): int;
 
 	/**
-	 * getErrorMessage must be used in class.
+	 * Get error message returned from code execution into docker container.
 	 */
 	public function getErrorMessage(): string|null;
 
 	/**
-	 * getOutput must be used in class.
+	 * Get output from code execution into docker container.
 	 */
 	public function getOutput(): string|null;
 
 	/**
-	 * toArray must be used in class.
+	 * Return output, result code, and error message
 	 */
 	public function toArray(): array;
 }

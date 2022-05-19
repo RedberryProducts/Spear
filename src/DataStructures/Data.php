@@ -7,22 +7,22 @@ use Redberry\Spear\Interfaces\Data as ContractsData;
 class Data implements ContractsData
 {
 	/**
-	 * Creating props for result code.
+	 * Result code after returned from script execution in the docker.
 	 */
 	private int $resultCode;
 
 	/**
-	 * Creating props for error.
+	 * Error that happened during code execution in the docker container.
 	 */
 	private string|null $error;
 
 	/**
-	 * Creating props for output code.
+	 * Return output from docker container after code execution.
 	 */
 	private string|null $output;
 
 	/**
-	 * Grants to the props default meanings.
+	 * Set default values for execution results.
 	 */
 	public function __construct()
 	{
@@ -48,7 +48,7 @@ class Data implements ContractsData
 	}
 
 	/**
-	 * Set output returns executed code.
+	 * Set script output message after code execution in the docker container.
 	 */
 	public function setOutput(string $output): void
 	{
@@ -56,7 +56,7 @@ class Data implements ContractsData
 	}
 
 	/**
-	 * Get resulted code.
+	 * Get result code from script execution in the docker container.
 	 */
 	public function getResultCode(): int
 	{
@@ -72,7 +72,7 @@ class Data implements ContractsData
 	}
 
 	/**
-	 * Get output result.
+	 * Get output from the script execution in the docker container.
 	 */
 	public function getOutput(): string|null
 	{

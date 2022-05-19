@@ -8,7 +8,7 @@ use Redberry\Spear\Interfaces\Handler;
 class RubyHandler extends BaseHandler implements Handler
 {
 	/**
-	 * After setting details runs compilation and starts Ruby.
+	 * Prepare docker image, code to execute, input and then run the script.
 	 */
 	public function __invoke(string $code, string $input = ''): Data
 	{

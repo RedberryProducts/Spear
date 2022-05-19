@@ -8,7 +8,7 @@ use Redberry\Spear\Interfaces\Handler;
 class CSharpHandler extends BaseHandler implements Handler
 {
 	/**
-	 * After setting details runs compilation and starts C#.
+	 * Prepare docker image, code to execute, input and then run the script.
 	 */
 	public function __invoke(string $code = '', string $input = ''): Data
 	{

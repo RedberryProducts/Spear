@@ -5,7 +5,7 @@ namespace Redberry\Spear\Interfaces;
 interface Handler
 {
 	/**
-	 * This invoke function must be used in class.
+	 * Set execution properties and execute the script.
 	 */
 	public function __invoke(string $code, string $input = ''): Data;
 }

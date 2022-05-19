@@ -184,7 +184,7 @@ class BaseHandler
 	}
 
 	/**
-	 * Checking code according docker rules and returns result code if it's correct.
+	 * Determine if code compilation is successful.
 	 */
 	private function compilable(array &$output = [], int &$resultCode = 0): bool
 	{
@@ -194,7 +194,7 @@ class BaseHandler
 	}
 
 	/**
-	 * This runs decoded program.
+	 * Prepare a script to determine if code is compilable.
 	 */
 	private function prepareTestForCompilationCommand()
 	{
@@ -207,8 +207,7 @@ class BaseHandler
 	}
 
 	/**
-	 * If input is not present runs the code without input.
-	 * If input is present runs with input.
+	 * Build the script to run compiled code.
 	 */
 	private function prepareCompileAndRunScript(): string
 	{
@@ -237,7 +236,7 @@ class BaseHandler
 	}
 
 	/**
-	 * During preparation creates new file with new file system.
+	 * Encode the code and the input to pass it to the docker container as parameters.
 	 */
 	private function prepareScriptForInterpretation()
 	{
@@ -261,7 +260,7 @@ class BaseHandler
 	}
 
 	/**
-	 * Runs docker commands and when it ends container deletes.
+	 * Run prepared command in the docker container.
 	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
