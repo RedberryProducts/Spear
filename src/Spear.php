@@ -2,6 +2,7 @@
 
 namespace Giunashvili\Spear;
 
+use Giunashvili\Spear\Handlers\GoHandler;
 use Giunashvili\Spear\Interfaces\Data;
 use Giunashvili\Spear\Handlers\PHPHandler;
 use Giunashvili\Spear\Handlers\CppHandler;
@@ -27,6 +28,8 @@ class Spear
 
 	const C_SHARP = 'csharp';
 
+	const GO_LANG = 'golang:1.18';
+
 	private array $handlers = [
 		self::CPP      => CppHandler::class,
 		self::NODE_14  => NodeHandler::class,
@@ -35,6 +38,7 @@ class Spear
 		self::RUBY_3   => RubyHandler::class,
 		self::RUST_1   => RustHandler::class,
 		self::C_SHARP  => CSharpHandler::class,
+		self::GO_LANG  => GoHandler::class,
 	];
 
 	public function __construct(private string $language = self::CPP)

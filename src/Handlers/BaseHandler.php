@@ -49,41 +49,83 @@ class BaseHandler
 	 */
 	protected string $executor;
 
+	/**
+	 * The filename which will be used by interpretators.
+	 */
+	protected string $fileToInterpret;
+
+	public function __construct()
+	{
+		$this->fileToInterpret = 'program.run';
+	}
+
+	/**
+	 * Set docker image to use for container creation.
+	 */
 	public function setImage(string $image = '')
 	{
 		$this->image = $image;
 	}
 
+	/**
+	 * Set file name for interpretation.
+	 */
+	public function setFileToInterpret(string $fileName)
+	{
+		$this->fileToInterpret = $fileName;
+	}
+
+	/**
+	 * Set code to execute.
+	 */
 	public function setCode(string $code = '')
 	{
 		$this->code = $code;
 	}
 
+	/**
+	 * Set input to execute program.
+	 */
 	public function setInput(string $input = '')
 	{
 		$this->input = $input;
 	}
 
+	/**
+	 * Set compiler execution command.
+	 */
 	public function setCompliler(string $compiler = '')
 	{
 		$this->compiler = $compiler;
 	}
 
+	/**
+	 * Set command to execution compiled script.
+	 */
 	public function setExecutor(string $executor)
 	{
 		$this->executor = $executor;
 	}
 
+	/**
+	 * Set interpreter to execute the script.
+	 */
 	public function setInterpreter(string $interpreter)
 	{
 		$this->interpreter = $interpreter;
 	}
 
+	/**
+	 * Set the file name of the executable program.
+	 */
 	public function setCompiledFile(string $name): void
 	{
 		$this->compiledFile = $name;
 	}
 
+	/**
+	 * Pass the execution data to the docker container and then execute the script.
+	 */
 	public function interpret()
 	{
 		$script = $this->prepareScriptForInterpretation();
@@ -95,6 +137,10 @@ class BaseHandler
 		return $this->formatOutput($output, $resultCode);
 	}
 
+	/**
+	 * when there aren't compilable output compilable result code
+	 * creates new docker, run it and returns formatted docker.
+	 */
 	public function compileAndRun(): Data
 	{
 		$compilableOutput = [];
@@ -114,6 +160,9 @@ class BaseHandler
 		return $this->formatOutput($output, $resultCode);
 	}
 
+	/**
+	 * Format and normalize return data from docker.
+	 */
 	private function formatOutput(array $output, int $resultCode): Data
 	{
 		$data = new OutputData();
@@ -184,14 +233,14 @@ class BaseHandler
 			$encodedInput = base64_encode($this->input);
 
 			return <<<END
-                echo $encodedCode | base64 -d > program.run;
-                echo $encodedInput | base64 -d | timeout $timeout $this->interpreter program.run; 
+                echo $encodedCode | base64 -d > $this->fileToInterpret;
+                echo $encodedInput | base64 -d | timeout $timeout $this->interpreter $this->fileToInterpret; 
             END;
 		}
 
 		return <<<END
-            echo $encodedCode | base64 -d > program.run;
-            timeout $timeout $this->interpreter program.run; 
+            echo $encodedCode | base64 -d > $this->fileToInterpret;
+            timeout $timeout $this->interpreter $this->fileToInterpret; 
         END;
 	}
 
