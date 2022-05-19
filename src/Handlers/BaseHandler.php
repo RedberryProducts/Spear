@@ -54,6 +54,9 @@ class BaseHandler
 	 */
 	protected string $fileToInterpret;
 
+	/**
+	 * Set default properties.
+	 */
 	public function __construct()
 	{
 		$this->fileToInterpret = 'program.run';
