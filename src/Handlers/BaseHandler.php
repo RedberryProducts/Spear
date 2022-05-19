@@ -180,6 +180,9 @@ class BaseHandler
 		return $data;
 	}
 
+	/**
+	 * Checking code according docker rules and returns result code if it's correct.
+	 */
 	private function compilable(array &$output = [], int &$resultCode = 0): bool
 	{
 		$resultCode = 0;
@@ -187,6 +190,9 @@ class BaseHandler
 		return $resultCode === 0;
 	}
 
+	/**
+	 * This runs decoded program.
+	 */
 	private function prepareTestForCompilationCommand()
 	{
 		$encodedScript = base64_encode($this->code);
@@ -197,6 +203,10 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * If input is not present runs the code without input.
+	 * If input is present runs with input.
+	 */
 	private function prepareCompileAndRunScript(): string
 	{
 		$encodedCode = base64_encode($this->code);
@@ -223,6 +233,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * During preparation creates new file with new file system.
+	 */
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
@@ -244,6 +257,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * Runs docker commands and when it ends container deletes.
+	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
 		$command = base64_encode($command);
