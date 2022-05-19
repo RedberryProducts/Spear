@@ -1,8 +1,8 @@
 <?php
 
-namespace Giunashvili\Spear\Tests;
+namespace Redberry\Spear\Tests;
 
-use Giunashvili\Spear\Spear;
+use Redberry\Spear\Spear;
 use PHPUnit\Framework\TestCase;
 
 class GoHandlerTest extends TestCase
@@ -46,7 +46,6 @@ class GoHandlerTest extends TestCase
 		$spear->handler(Spear::GO_LANG);
 
 		$data = $spear->execute($this->rightCodeWithoutInput);
-		dump($data->getOutput());
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}

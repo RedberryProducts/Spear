@@ -1,16 +1,20 @@
 {
-    "name": "giunashvili/spear",
+    "name": "redberry/spear",
     "description": "Ran any language with Spear!",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Giunashvili\\Spear\\": "src/"
+            "Redberry\\Spear\\": "src/"
         }
     },
     "authors": [
         {
             "name": "giunashvili",
-            "email": "giorgi.official@yahoo.com"
+            "email": "giuna@redberry.ge"
+        },
+        {
+            "name": "kenke11",
+            "email": "tazokenkebashvili@redberry.ge"
         }
     ],
     "require-dev": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Giunashvili\Spear\Tests;
+namespace Redberry\Spear\Tests;
 
-use Giunashvili\Spear\Spear;
+use Redberry\Spear\Spear;
 use PHPUnit\Framework\TestCase;
 
 class CSharpHandlerTest extends TestCase

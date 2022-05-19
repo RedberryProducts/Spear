@@ -1,9 +1,9 @@
 <?php
 
-namespace Giunashvili\Spear\Handlers;
+namespace Redberry\Spear\Handlers;
 
-use Giunashvili\Spear\Interfaces\Data;
-use Giunashvili\Spear\Interfaces\Handler;
+use Redberry\Spear\Interfaces\Data;
+use Redberry\Spear\Interfaces\Handler;
 
 class PythonHandler extends BaseHandler implements Handler
 {
