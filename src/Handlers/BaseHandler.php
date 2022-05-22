@@ -54,6 +54,9 @@ class BaseHandler
 	 */
 	protected string $fileToInterpret;
 
+	/**
+	 * Set default properties.
+	 */
 	public function __construct()
 	{
 		$this->fileToInterpret = 'program.run';
@@ -180,6 +183,9 @@ class BaseHandler
 		return $data;
 	}
 
+	/**
+	 * Determine if code compilation is successful.
+	 */
 	private function compilable(array &$output = [], int &$resultCode = 0): bool
 	{
 		$resultCode = 0;
@@ -187,6 +193,9 @@ class BaseHandler
 		return $resultCode === 0;
 	}
 
+	/**
+	 * Prepare a script to determine if code is compilable.
+	 */
 	private function prepareTestForCompilationCommand()
 	{
 		$encodedScript = base64_encode($this->code);
@@ -197,6 +206,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * Build the script to run compiled code.
+	 */
 	private function prepareCompileAndRunScript(): string
 	{
 		$encodedCode = base64_encode($this->code);
@@ -223,6 +235,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * Encode the code and the input to pass it to the docker container as parameters.
+	 */
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
@@ -244,6 +259,9 @@ class BaseHandler
         END;
 	}
 
+	/**
+	 * Run prepared command in the docker container.
+	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
 		$command = base64_encode($command);

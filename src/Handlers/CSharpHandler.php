@@ -7,6 +7,9 @@ use Redberry\Spear\Interfaces\Handler;
 
 class CSharpHandler extends BaseHandler implements Handler
 {
+	/**
+	 * Prepare docker image, code to execute, input and then run the script.
+	 */
 	public function __invoke(string $code = '', string $input = ''): Data
 	{
 		$this->setImage('mono:6.12.0');

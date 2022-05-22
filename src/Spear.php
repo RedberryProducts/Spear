@@ -30,6 +30,9 @@ class Spear
 
 	const GO_LANG = 'golang:1.18';
 
+	/**
+	 * Returns array of variable with relevant class names.
+	 */
 	private array $handlers = [
 		self::CPP      => CppHandler::class,
 		self::NODE_14  => NodeHandler::class,
@@ -41,10 +44,16 @@ class Spear
 		self::GO_LANG  => GoHandler::class,
 	];
 
+	/**
+	 * Sets default of language variable.
+	 */
 	public function __construct(private string $language = self::CPP)
 	{
 	}
 
+	/**
+	 * Returns execute code if it is callable otherwise throw error.
+	 */
 	public function execute(string $code, string $input = ''): Data
 	{
 		$handlerClass = $this->getHandler();
@@ -56,12 +65,18 @@ class Spear
 		return $handler($code, $input);
 	}
 
+	/**
+	 * Set language variable according to the property value.
+	 */
 	public function handler(string $language): self
 	{
 		$this->language = $language;
 		return $this;
 	}
 
+	/**
+	 * Returns entered language.
+	 */
 	private function getHandler(): string
 	{
 		return $this->handlers[$this->language];
