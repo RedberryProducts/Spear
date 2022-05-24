@@ -13,7 +13,7 @@ Spear is a convinient PHP package that allows you to execute code in many differ
 #### Getting Started
 To get started using `Spear` you need to install it as a dependency in your php project using composer:
 ```bash
-  composer require giunashvili/spear
+  composer require redberry/spear
 ```
 
 and you're good to go 🙏
@@ -31,7 +31,7 @@ Let's see how would we implement handling node code without input:
 ```php
   <?php
   
-  use Giunashvili\Spear\Spear;
+  use Redberry\Spear\Spear;
   
   $nodeCode = "console.log('hello Spear!')";
   
@@ -53,7 +53,7 @@ Now, let's see how does it work with input:
 ```php
   <?php
   
-  use Giunashvili\Spear\Spear;
+  use Redberry\Spear\Spear;
   
   $nodeCode = <<<END
     let data = '';
@@ -89,6 +89,7 @@ There are variety of languages available with spear. Here's a listing:
 * Python 3
 * Ruby 3
 * Rust
+* Go
 
 #### How does Spear work?
 Under the hood the `Spear` utilizes docker to create containers according to the handler and the language we'd like to use. Spear creates fresh new container for each execution, let's the code execute in the container, gets the output and then destroys the container.
