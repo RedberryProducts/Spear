@@ -55,7 +55,7 @@ class JavaHandlerTest extends TestCase
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
-	public function test_go_lang_code_works_fine_with_input(): void
+	public function test_java_code_works_fine_with_input(): void
 	{
 		$spear = new Spear;
 		$spear->handler(Spear::JAVA);
