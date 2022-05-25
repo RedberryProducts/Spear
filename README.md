@@ -90,6 +90,7 @@ There are variety of languages available with spear. Here's a listing:
 * Ruby 3
 * Rust
 * Go
+* Java
 
 #### How does Spear work?
 Under the hood the `Spear` utilizes docker to create containers according to the handler and the language we'd like to use. Spear creates fresh new container for each execution, let's the code execute in the container, gets the output and then destroys the container.

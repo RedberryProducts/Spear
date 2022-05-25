@@ -3,6 +3,7 @@
 namespace Redberry\Spear;
 
 use Redberry\Spear\Handlers\GoHandler;
+use Redberry\Spear\Handlers\JavaHandler;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\CppHandler;
@@ -30,6 +31,8 @@ class Spear
 
 	const GO_LANG = 'golang:1.18';
 
+	const JAVA = 'openjdk:11';
+
 	/**
 	 * Returns array of variable with relevant class names.
 	 */
@@ -42,6 +45,7 @@ class Spear
 		self::RUST_1   => RustHandler::class,
 		self::C_SHARP  => CSharpHandler::class,
 		self::GO_LANG  => GoHandler::class,
+		self::JAVA     => JavaHandler::class,
 	];
 
 	/**
