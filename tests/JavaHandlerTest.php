@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class JavaHandlerTest extends TestCase
 {
 	private $rightCodeWithoutInput = <<<END
-        class HelloWorld {
+        class Main {
             public static void main(String[] args) {
                 System.out.println("Hello, World!"); 
             }
@@ -16,7 +16,7 @@ class JavaHandlerTest extends TestCase
     END;
 
 	private string $wrongCodeWithoutInput = <<<END
-        class HelloWorld {
+        class Main {
             public static void main(String[] args) {
                 System.out.println"Hello, World!"); 
             }
@@ -41,6 +41,7 @@ class JavaHandlerTest extends TestCase
 		$spear->handler(Spear::JAVA);
 
 		$data = $spear->execute($this->rightCodeWithoutInput);
+
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}

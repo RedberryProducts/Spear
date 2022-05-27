@@ -12,9 +12,11 @@ class JavaHandler extends BaseHandler implements Handler
 		$this->setImage('openjdk:11');
 		$this->setCode($code);
 		$this->setInput($input);
-		$this->setInterpreter('java');
-		$this->setFileToInterpret('program.java');
+		$this->setFileToCompiler('Main.java');
+		$this->setCompiledFile('Main');
+		$this->setCompliler('javac');
+		$this->setExecutor('java');
 
-		return $this->interpret();
+		return $this->compileAndRun();
 	}
 }
