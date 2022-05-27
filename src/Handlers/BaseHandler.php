@@ -84,7 +84,10 @@ class BaseHandler
 		$this->fileToInterpret = $fileName;
 	}
 
-	public function setFileToCompiler(string $filename)
+	/**
+	 * Set file name for compilation.
+	 */
+	public function setFileToComplile(string $filename)
 	{
 		$this->fileToCompiler = $filename;
 	}
