@@ -55,11 +55,17 @@ class BaseHandler
 	protected string $fileToInterpret;
 
 	/**
+	 *  The filename which will be used by compilation.
+	 */
+	protected string $fileToCompiler;
+
+	/**
 	 * Set default properties.
 	 */
 	public function __construct()
 	{
 		$this->fileToInterpret = 'program.run';
+		$this->fileToCompiler = 'program.run';
 	}
 
 	/**
@@ -76,6 +82,14 @@ class BaseHandler
 	public function setFileToInterpret(string $fileName)
 	{
 		$this->fileToInterpret = $fileName;
+	}
+
+	/**
+	 * Set file name for compilation.
+	 */
+	public function setFileToComplile(string $filename)
+	{
+		$this->fileToCompiler = $filename;
 	}
 
 	/**
@@ -201,8 +215,8 @@ class BaseHandler
 		$encodedScript = base64_encode($this->code);
 
 		return <<<END
-            echo $encodedScript | base64 -d > program.run;
-            $this->compiler program.run;
+            echo $encodedScript | base64 -d > $this->fileToCompiler;
+            $this->compiler $this->fileToCompiler;
         END;
 	}
 
@@ -222,15 +236,15 @@ class BaseHandler
 			$encodedInput = base64_encode($this->input);
 
 			return <<<END
-                echo $encodedCode | base64 -d > program.run;
-                $this->compiler program.run;
+                echo $encodedCode | base64 -d > $this->fileToCompiler;
+                $this->compiler $this->fileToCompiler;
                 echo $encodedInput | base64 -d | timeout $timeout $executeCommand; 
             END;
 		}
 
 		return <<<END
-            echo $encodedCode | base64 -d > program.run;
-            $this->compiler program.run;
+            echo $encodedCode | base64 -d > $this->fileToCompiler;
+            $this->compiler $this->fileToCompiler;
             timeout $timeout $executeCommand; 
         END;
 	}
