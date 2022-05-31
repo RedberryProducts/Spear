@@ -22,5 +22,15 @@
         "symfony/var-dumper": "^6.0",
         "friendsofphp/php-cs-fixer": "^3.4"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "require": {
+        "laravel/framework": "^9.14"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Redberry\\Spear\\ServiceProvider"
+            ]
+        }
+    }
 }
