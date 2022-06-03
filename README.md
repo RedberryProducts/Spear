@@ -31,13 +31,11 @@ Let's see how would we implement handling node code without input:
 ```php
   <?php
   
-  use Redberry\Spear\Spear;
+  use Redberry\Spear\Facades\Spear;
   
   $nodeCode = "console.log('hello Spear!')";
   
-  $spear = new Spear;
-  $spear->handler(Spear::NODE_14);
-  $data = $spear->execute($nodeCode);
+  $data = Spear::node()->execute($nodeCode);
   
   dump($data->toArray());
   /**
@@ -53,7 +51,7 @@ Now, let's see how does it work with input:
 ```php
   <?php
   
-  use Redberry\Spear\Spear;
+  use Redberry\Spear\Facades\Spear;
   
   $nodeCode = <<<END
     let data = '';
@@ -67,9 +65,7 @@ Now, let's see how does it work with input:
     process.stdin.on('end', solve);
    END;
   
-  $spear = new Spear;
-  $spear->handler(Spear::NODE_14);
-  $data = $spear->execute($nodeCode, 'Speeeear');
+  $data = Spear::node()->execute($nodeCode, 'Speeeear');
   
   dump($data->toArray());
   /**
