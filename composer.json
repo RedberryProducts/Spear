@@ -7,6 +7,11 @@
             "Redberry\\Spear\\": "src/"
         }
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
     "authors": [
         {
             "name": "giunashvili",
@@ -20,7 +25,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "symfony/var-dumper": "^6.0",
-        "friendsofphp/php-cs-fixer": "^3.4"
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "orchestra/testbench": "^7.5"
     },
     "license": "MIT",
     "require": {

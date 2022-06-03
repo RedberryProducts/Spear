@@ -2,8 +2,8 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Tests\TestCase;
 
 class NodeHandlerTest extends TestCase
 {
@@ -29,10 +29,7 @@ class NodeHandlerTest extends TestCase
 
 	public function test_node_code_is_working_without_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::NODE_14);
-
-		$data = $spear->execute($this->rightCodeWithoutInput);
+		$data = Spear::node()->execute($this->rightCodeWithoutInput);
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('hello world!', $data->getOutput());
@@ -40,18 +37,14 @@ class NodeHandlerTest extends TestCase
 
 	public function test_node_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::NODE_14);
-		$data = $spear->execute($this->wrongCodeWithoutInput);
+		$data = Spear::node()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertEquals(1, $data->getResultCode());
 	}
 
 	public function test_node_code_works_fine_with_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::NODE_14);
-		$data = $spear->execute($this->rightCodeWithInput, '123');
+		$data = Spear::node()->execute($this->rightCodeWithInput, '123');
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('246', $data->getOutput());

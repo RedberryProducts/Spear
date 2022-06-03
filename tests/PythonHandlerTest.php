@@ -2,8 +2,8 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Tests\TestCase;
 
 class PythonHandlerTest extends TestCase
 {
@@ -15,9 +15,7 @@ class PythonHandlerTest extends TestCase
 
 	public function test_python_code_is_working_without_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::PYTHON_3);
-		$data = $spear->execute($this->rightCodeWithoutInput);
+		$data = Spear::python()->execute($this->rightCodeWithoutInput);
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('hello world!', $data->getOutput());
@@ -25,18 +23,14 @@ class PythonHandlerTest extends TestCase
 
 	public function test_python_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::PYTHON_3);
-		$data = $spear->execute($this->wrongCodeWithoutInput);
+		$data = Spear::python()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
 	public function test_python_code_works_fine_with_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::PYTHON_3);
-		$data = $spear->execute($this->rightCodeWithInput, '500');
+		$data = Spear::python()->execute($this->rightCodeWithInput, '500');
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('1000', $data->getOutput());

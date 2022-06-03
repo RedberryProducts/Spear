@@ -2,8 +2,8 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Tests\TestCase;
 
 class GoHandlerTest extends TestCase
 {
@@ -42,29 +42,21 @@ class GoHandlerTest extends TestCase
 
 	public function test_go_lang_code_is_working_without_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::GO_LANG);
-
-		$data = $spear->execute($this->rightCodeWithoutInput);
+		$data = Spear::go()->execute($this->rightCodeWithoutInput);
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}
 
 	public function test_go_lang_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::GO_LANG);
-
-		$data = $spear->execute($this->wrongCodeWithoutInput);
+		$data = Spear::go()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
 	public function test_go_lang_code_works_fine_with_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::GO_LANG);
-		$data = $spear->execute($this->rightCodeWithInput, 100);
+		$data = Spear::go()->execute($this->rightCodeWithInput, 100);
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals(200, $data->getOutput());

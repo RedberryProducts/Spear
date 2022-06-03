@@ -2,8 +2,8 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Tests\TestCase;
 
 class CppHandlerTest extends TestCase
 {
@@ -37,17 +37,14 @@ class CppHandlerTest extends TestCase
 
 	public function test_code_is_working(): void
 	{
-		$spear = new Spear;
-
-		$data = $spear->execute($this->rightCode, '12');
+		$data = Spear::cpp()->execute($this->rightCode, '12');
 		$this->assertEquals(24, +$data->getOutput());
 		$this->assertEquals(0, $data->getResultCode());
 	}
 
 	public function test_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$data = $spear->execute($this->erroredCode, '117');
+		$data = Spear::cpp()->execute($this->erroredCode, '117');
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 }
