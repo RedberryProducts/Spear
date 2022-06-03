@@ -7,6 +7,11 @@
             "Redberry\\Spear\\": "src/"
         }
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
     "authors": [
         {
             "name": "giunashvili",

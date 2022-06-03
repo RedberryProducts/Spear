@@ -3,24 +3,10 @@
 namespace Redberry\Spear\Tests;
 
 use Redberry\Spear\Facades\Spear;
-use Orchestra\Testbench\TestCase;
+use Tests\TestCase;
 
 class PHPHandlerTest extends TestCase
 {
-	/**
-	 * Get package providers.
-	 *
-	 * @param \Illuminate\Foundation\Application $app
-	 *
-	 * @return array
-	 */
-	protected function getPackageProviders($app)
-	{
-		return [
-			'Redberry\Spear\ServiceProvider',
-		];
-	}
-
 	private string $rightCodeWithoutInput = <<<END
         <?php 
         echo "hello world!";
