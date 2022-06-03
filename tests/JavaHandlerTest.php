@@ -2,11 +2,25 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Orchestra\Testbench\TestCase;
 
 class JavaHandlerTest extends TestCase
 {
+	/**
+	 * Get package providers.
+	 *
+	 * @param \Illuminate\Foundation\Application $app
+	 *
+	 * @return array
+	 */
+	protected function getPackageProviders($app)
+	{
+		return [
+			'Redberry\Spear\ServiceProvider',
+		];
+	}
+
 	private $rightCodeWithoutInput = <<<END
         class Main {
             public static void main(String[] args) {
@@ -37,10 +51,7 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_code_is_working_without_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::JAVA);
-
-		$data = $spear->execute($this->rightCodeWithoutInput);
+		$data = Spear::java()->execute($this->rightCodeWithoutInput);
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
@@ -48,19 +59,14 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::JAVA);
-
-		$data = $spear->execute($this->wrongCodeWithoutInput);
+		$data = Spear::java()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
 	public function test_java_code_works_fine_with_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::JAVA);
-		$data = $spear->execute($this->rightCodeWithInput, 'Hello');
+		$data = Spear::java()->execute($this->rightCodeWithInput, 'Hello');
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());

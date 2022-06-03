@@ -2,11 +2,25 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Orchestra\Testbench\TestCase;
 
 class CSharpHandlerTest extends TestCase
 {
+	/**
+	 * Get package providers.
+	 *
+	 * @param \Illuminate\Foundation\Application $app
+	 *
+	 * @return array
+	 */
+	protected function getPackageProviders($app)
+	{
+		return [
+			'Redberry\Spear\ServiceProvider',
+		];
+	}
+
 	private string $rightCode = <<<END
         using System;
 
@@ -34,17 +48,14 @@ class CSharpHandlerTest extends TestCase
 
 	public function test_csharp_code_is_working(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::C_SHARP);
-		$data = $spear->execute($this->rightCode, 'hey');
+		$data = Spear::cSharp()->execute($this->rightCode, 'hey');
 		$this->assertEquals('hey', $data->getOutput());
 		$this->assertEquals(0, $data->getResultCode());
 	}
 
 	public function test_csharp_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$data = $spear->execute($this->erroredCode);
+		$data = Spear::cSharp()->execute($this->erroredCode);
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 }

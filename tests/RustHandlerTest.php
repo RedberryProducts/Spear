@@ -2,11 +2,25 @@
 
 namespace Redberry\Spear\Tests;
 
-use Redberry\Spear\Spear;
-use PHPUnit\Framework\TestCase;
+use Redberry\Spear\Facades\Spear;
+use Orchestra\Testbench\TestCase;
 
 class RustHandlerTest extends TestCase
 {
+	/**
+	 * Get package providers.
+	 *
+	 * @param \Illuminate\Foundation\Application $app
+	 *
+	 * @return array
+	 */
+	protected function getPackageProviders($app)
+	{
+		return [
+			'Redberry\Spear\ServiceProvider',
+		];
+	}
+
 	private string $rightCodeWithoutInput = <<<END
         fn main() { 
             println!("Hello World!"); 
@@ -29,26 +43,23 @@ class RustHandlerTest extends TestCase
 
 	public function test_rust_code_is_working_without_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::RUST_1);
-		$data = $spear->execute($this->rightCodeWithoutInput);
+		$data = Spear::rust()->execute($this->rightCodeWithoutInput);
+
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello World!', $data->getOutput());
 	}
 
 	public function test_rust_code_has_syntax_errors(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::RUST_1);
-		$data = $spear->execute($this->wrongCodeWithoutInput);
+		$data = Spear::rust()->execute($this->wrongCodeWithoutInput);
+
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
 	public function test_rust_code_works_fine_with_input(): void
 	{
-		$spear = new Spear;
-		$spear->handler(Spear::RUST_1);
-		$data = $spear->execute($this->rightCodeWithInput, '1500');
+		$data = Spear::rust()->execute($this->rightCodeWithInput, '1500');
+
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('1500', $data->getOutput());
 	}
