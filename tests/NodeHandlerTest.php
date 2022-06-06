@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Tests;
 
+use Exception;
 use Redberry\Spear\Facades\Spear;
 use Tests\TestCase;
 
@@ -27,6 +28,9 @@ class NodeHandlerTest extends TestCase
         process.stdin.on('end', solve);
     END;
 
+	/**
+	 * @throws Exception
+	 */
 	public function test_node_code_is_working_without_input(): void
 	{
 		$data = Spear::node()->execute($this->rightCodeWithoutInput);
