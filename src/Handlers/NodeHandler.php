@@ -18,6 +18,9 @@ class NodeHandler extends BaseHandler implements Handler
 	 */
 	private array $versions = [
 		'14' => 'node:14',
+		'16' => 'node:16',
+		'17' => 'node:17',
+		'18' => 'node:18',
 	];
 
 	/**
