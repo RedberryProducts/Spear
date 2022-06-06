@@ -5,7 +5,7 @@ namespace Redberry\Spear\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Redberry\Spear\Spear node()
+ * @method static \Redberry\Spear\Spear node(string $version = '14')
  * @method static \Redberry\Spear\Spear php()
  * @method static \Redberry\Spear\Spear cpp()
  * @method static \Redberry\Spear\Spear python()

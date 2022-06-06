@@ -16,6 +16,8 @@ use Redberry\Spear\Handlers\RustHandler;
 
 class Spear
 {
+	private string $version;
+
 	const CPP = 'cpp';
 
 	const NODE_14 = 'node:14';
@@ -70,7 +72,7 @@ class Spear
 		{
 			throw new \Exception('Invalid handler provided!');
 		}
-		return $handler($code, $input);
+		return $handler($code, $input, $this->version);
 	}
 
 	/**
@@ -93,8 +95,9 @@ class Spear
 	/**
 	 * Use node handler.
 	 */
-	public function node(): self
+	public function node(string $version = '14'): self
 	{
+		$this->version = $version;
 		$this->handler(self::NODE_14);
 		return $this;
 	}
