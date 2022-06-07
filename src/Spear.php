@@ -4,6 +4,8 @@ namespace Redberry\Spear;
 
 use Exception;
 use Redberry\Spear\Handlers\CppHandler;
+use Redberry\Spear\Handlers\CSharpHandler;
+use Redberry\Spear\Handlers\GoHandler;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\PythonHandler;
 use Redberry\Spear\Handlers\RubyHandler;
@@ -117,18 +119,20 @@ class Spear
 	/**
 	 * Use c# handler.
 	 */
-	public function cSharp(): self
+	public function cSharp(string $version = '6.12'): self
 	{
-		$this->handler(self::C_SHARP);
+		$handler = new CSharpHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use go handler.
 	 */
-	public function go(): self
+	public function go(string $version = '1.18'): self
 	{
-		$this->handler(self::GO_LANG);
+		$handler = new GoHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
