@@ -74,7 +74,7 @@ class JavaHandlerTest extends TestCase
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}
 
-	public function test_php_with_incorrect_version(): void
+	public function test_java_with_incorrect_version(): void
 	{
 		$this->expectException(Exception::class);
 		Spear::node('20')->execute($this->rightCodeWithoutInput);

@@ -58,7 +58,7 @@ class RustHandlerTest extends TestCase
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
-	public function test_php_with_incorrect_version(): void
+	public function test_rust_with_incorrect_version(): void
 	{
 		$this->expectException(Exception::class);
 		Spear::node('3')->execute($this->rightCodeWithoutInput);
