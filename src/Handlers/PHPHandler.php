@@ -13,6 +13,9 @@ class PHPHandler extends BaseHandler implements Handler
 	 */
 	private string $version;
 
+	/**
+	 * Available php versions list.
+	 */
 	private array $versions = [
 		'8' => 'giunashvili/php',
 	];
