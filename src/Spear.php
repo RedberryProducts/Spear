@@ -6,6 +6,7 @@ use Exception;
 use Redberry\Spear\Handlers\CppHandler;
 use Redberry\Spear\Handlers\CSharpHandler;
 use Redberry\Spear\Handlers\GoHandler;
+use Redberry\Spear\Handlers\JavaHandler;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\PythonHandler;
 use Redberry\Spear\Handlers\RubyHandler;
@@ -139,9 +140,10 @@ class Spear
 	/**
 	 * Use java handler.
 	 */
-	public function java(): self
+	public function java(string $version = '11'): self
 	{
-		$this->handler(self::JAVA);
+		$handler = new JavaHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 

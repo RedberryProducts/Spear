@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Tests;
 
+use Exception;
 use Redberry\Spear\Facades\Spear;
 use Tests\TestCase;
 
@@ -35,7 +36,7 @@ class JavaHandlerTest extends TestCase
         }
     END;
 
-	public function test_java_code_is_working_without_input(): void
+	public function test_java_default_version_code_is_working_without_input(): void
 	{
 		$data = Spear::java()->execute($this->rightCodeWithoutInput);
 
@@ -43,18 +44,39 @@ class JavaHandlerTest extends TestCase
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}
 
-	public function test_java_code_has_syntax_errors(): void
+	public function test_java_default_version_code_has_syntax_errors(): void
 	{
 		$data = Spear::java()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
-	public function test_java_code_works_fine_with_input(): void
+	public function test_java_11_code_has_syntax_errors(): void
+	{
+		$data = Spear::java('11')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertNotEquals(0, $data->getResultCode());
+	}
+
+	public function test_java_default_version_code_works_fine_with_input(): void
 	{
 		$data = Spear::java()->execute($this->rightCodeWithInput, 'Hello');
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
+	}
+
+	public function test_java_11_code_works_fine_with_input(): void
+	{
+		$data = Spear::java('11')->execute($this->rightCodeWithInput, 'Hello');
+
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals('Hello, World!', $data->getOutput());
+	}
+
+	public function test_php_with_incorrect_version(): void
+	{
+		$this->expectException(Exception::class);
+		Spear::node('20')->execute($this->rightCodeWithoutInput);
 	}
 }
