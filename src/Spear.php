@@ -2,23 +2,14 @@
 
 namespace Redberry\Spear;
 
-use Redberry\Spear\Handlers\GoHandler;
-use Redberry\Spear\Handlers\JavaHandler;
-use Redberry\Spear\Handlers\PerlHandler;
+use Exception;
 use Redberry\Spear\Interfaces\Data;
-use Redberry\Spear\Handlers\PHPHandler;
-use Redberry\Spear\Handlers\CppHandler;
-use Redberry\Spear\Handlers\CSharpHandler;
 use Redberry\Spear\Handlers\NodeHandler;
-use Redberry\Spear\Handlers\PythonHandler;
-use Redberry\Spear\Handlers\RubyHandler;
-use Redberry\Spear\Handlers\RustHandler;
+use Redberry\Spear\Interfaces\Handler;
 
 class Spear
 {
 	const CPP = 'cpp';
-
-	const NODE_14 = 'node:14';
 
 	const PHP_8 = 'php:8.1';
 
@@ -37,65 +28,52 @@ class Spear
 	const PERL = 'perl:5.34';
 
 	/**
-	 * Returns array of variable with relevant class names.
+	 * Select default handler.
 	 */
-	private array $handlers = [
-		self::CPP      => CppHandler::class,
-		self::NODE_14  => NodeHandler::class,
-		self::PHP_8    => PHPHandler::class,
-		self::PYTHON_3 => PythonHandler::class,
-		self::RUBY_3   => RubyHandler::class,
-		self::RUST_1   => RustHandler::class,
-		self::C_SHARP  => CSharpHandler::class,
-		self::GO_LANG  => GoHandler::class,
-		self::JAVA     => JavaHandler::class,
-		self::PERL     => PerlHandler::class,
-	];
-
-	/**
-	 * Sets default of language variable.
-	 */
-	public function __construct(private string $language = self::CPP)
-	{
-	}
+	private Handler $selectedHandler;
 
 	/**
 	 * Returns execute code if it is callable otherwise throw error.
+	 *
+	 * @throws Exception
 	 */
 	public function execute(string $code, string $input = ''): Data
 	{
-		$handlerClass = $this->getHandler();
-		$handler = new $handlerClass;
+		$handler = $this->getHandler();
+
 		if (!is_callable($handler))
 		{
-			throw new \Exception('Invalid handler provided!');
+			throw new Exception('Invalid handler provided!');
 		}
 		return $handler($code, $input);
 	}
 
 	/**
-	 * Set language variable according to the property value.
+	 * Set programming language handler.
 	 */
-	public function handler(string $language): self
+	public function handler(Handler $handler): self
 	{
-		$this->language = $language;
+		$this->selectedHandler = $handler;
 		return $this;
 	}
 
 	/**
-	 * Returns entered language.
+	 * Get selected programming language handler.
 	 */
-	private function getHandler(): string
+	private function getHandler(): Handler
 	{
-		return $this->handlers[$this->language];
+		return $this->selectedHandler;
 	}
 
 	/**
 	 * Use node handler.
+	 *
+	 * @throws Exception
 	 */
-	public function node(): self
+	public function node(string $version = '14'): self
 	{
-		$this->handler(self::NODE_14);
+		$handler = new NodeHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
