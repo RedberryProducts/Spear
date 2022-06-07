@@ -5,6 +5,7 @@ namespace Redberry\Spear;
 use Exception;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\PythonHandler;
+use Redberry\Spear\Handlers\RubyHandler;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\Handlers\NodeHandler;
 use Redberry\Spear\Interfaces\Handler;
@@ -93,9 +94,10 @@ class Spear
 	/**
 	 * Use ruby handler.
 	 */
-	public function ruby(): self
+	public function ruby(string $version = '3'): self
 	{
-		$this->handler(self::RUBY_3);
+		$handler = new RubyHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 

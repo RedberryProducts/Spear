@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Redberry\Spear\Spear php(string $version = '8')
  * @method static \Redberry\Spear\Spear cpp()
  * @method static \Redberry\Spear\Spear python(string $version = '3.10')
- * @method static \Redberry\Spear\Spear ruby()
+ * @method static \Redberry\Spear\Spear ruby(string $version = '3')
  * @method static \Redberry\Spear\Spear rust()
  * @method static \Redberry\Spear\Spear cSharp()
  * @method static \Redberry\Spear\Spear go()
