@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Redberry\Spear\Spear node(string $version = '14')
- * @method static \Redberry\Spear\Spear php()
- * @method static \Redberry\Spear\Spear cpp()
- * @method static \Redberry\Spear\Spear python()
- * @method static \Redberry\Spear\Spear ruby()
- * @method static \Redberry\Spear\Spear rust()
- * @method static \Redberry\Spear\Spear cSharp()
- * @method static \Redberry\Spear\Spear go()
- * @method static \Redberry\Spear\Spear java()
- * @method static \Redberry\Spear\Spear perl()
+ * @method static \Redberry\Spear\Spear php(string $version = '8')
+ * @method static \Redberry\Spear\Spear cpp(string $version = '14')
+ * @method static \Redberry\Spear\Spear python(string $version = '3.10')
+ * @method static \Redberry\Spear\Spear ruby(string $version = '3')
+ * @method static \Redberry\Spear\Spear rust(string $version = '1')
+ * @method static \Redberry\Spear\Spear cSharp(string $version = '6.12')
+ * @method static \Redberry\Spear\Spear go(string $version = '1.18')
+ * @method static \Redberry\Spear\Spear java(string $version = '11')
+ * @method static \Redberry\Spear\Spear perl(string $version = '5.34')
  *
  * @see \Redberry\Spear\Spear
  */

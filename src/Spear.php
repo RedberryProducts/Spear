@@ -3,30 +3,21 @@
 namespace Redberry\Spear;
 
 use Exception;
+use Redberry\Spear\Handlers\CppHandler;
+use Redberry\Spear\Handlers\CSharpHandler;
+use Redberry\Spear\Handlers\GoHandler;
+use Redberry\Spear\Handlers\JavaHandler;
+use Redberry\Spear\Handlers\PerlHandler;
+use Redberry\Spear\Handlers\PHPHandler;
+use Redberry\Spear\Handlers\PythonHandler;
+use Redberry\Spear\Handlers\RubyHandler;
+use Redberry\Spear\Handlers\RustHandler;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\Handlers\NodeHandler;
 use Redberry\Spear\Interfaces\Handler;
 
 class Spear
 {
-	const CPP = 'cpp';
-
-	const PHP_8 = 'php:8.1';
-
-	const PYTHON_3 = 'python:3.10';
-
-	const RUBY_3 = 'ruby:3';
-
-	const RUST_1 = 'rust:1';
-
-	const C_SHARP = 'csharp';
-
-	const GO_LANG = 'golang:1.18';
-
-	const JAVA = 'openjdk:11';
-
-	const PERL = 'perl:5.34';
-
 	/**
 	 * Select default handler.
 	 */
@@ -80,81 +71,90 @@ class Spear
 	/**
 	 * Use php handler.
 	 */
-	public function php(): self
+	public function php(string $version = '8'): self
 	{
-		$this->handler(self::PHP_8);
+		$handler = new PHPHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use cpp handler.
 	 */
-	public function cpp(): self
+	public function cpp(string $version = '14'): self
 	{
-		$this->handler(self::CPP);
+		$handler = new CppHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use python handler.
 	 */
-	public function python(): self
+	public function python(string $version = '3.10'): self
 	{
-		$this->handler(self::PYTHON_3);
+		$handler = new PythonHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use ruby handler.
 	 */
-	public function ruby(): self
+	public function ruby(string $version = '3'): self
 	{
-		$this->handler(self::RUBY_3);
+		$handler = new RubyHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use rust handler.
 	 */
-	public function rust(): self
+	public function rust(string $version = '1'): self
 	{
-		$this->handler(self::RUST_1);
+		$handler = new RustHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use c# handler.
 	 */
-	public function cSharp(): self
+	public function cSharp(string $version = '6.12'): self
 	{
-		$this->handler(self::C_SHARP);
+		$handler = new CSharpHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use go handler.
 	 */
-	public function go(): self
+	public function go(string $version = '1.18'): self
 	{
-		$this->handler(self::GO_LANG);
+		$handler = new GoHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use java handler.
 	 */
-	public function java(): self
+	public function java(string $version = '11'): self
 	{
-		$this->handler(self::JAVA);
+		$handler = new JavaHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
 	/**
 	 * Use perl handler.
 	 */
-	public function perl(): self
+	public function perl(string $version = '5.34'): self
 	{
-		$this->handler(self::PERL);
+		$handler = new PerlHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 }

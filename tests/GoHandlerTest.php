@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Tests;
 
+use Exception;
 use Redberry\Spear\Facades\Spear;
 use Tests\TestCase;
 
@@ -40,25 +41,76 @@ class GoHandlerTest extends TestCase
 
     END;
 
-	public function test_go_lang_code_is_working_without_input(): void
+	public function test_go_lang_default_version_code_is_working_without_input(): void
 	{
 		$data = Spear::go()->execute($this->rightCodeWithoutInput);
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
 	}
 
-	public function test_go_lang_code_has_syntax_errors(): void
+	public function test_go_lang_default_version_code_works_fine_with_input(): void
+	{
+		$data = Spear::go()->execute($this->rightCodeWithInput, 100);
+
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals(200, $data->getOutput());
+	}
+
+	public function test_go_1_version_code_works_fine_with_input(): void
+	{
+		$data = Spear::go('1')->execute($this->rightCodeWithInput, 100);
+
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals(200, $data->getOutput());
+	}
+
+	public function test_go_1_17_version_code_works_fine_with_input(): void
+	{
+		$data = Spear::go('1.17')->execute($this->rightCodeWithInput, 100);
+
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals(200, $data->getOutput());
+	}
+
+	public function test_go_1_18_version_code_works_fine_with_input(): void
+	{
+		$data = Spear::go('1.18')->execute($this->rightCodeWithInput, 100);
+
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals(200, $data->getOutput());
+	}
+
+	public function test_go_lang_with_incorrect_version(): void
+	{
+		$this->expectException(Exception::class);
+		Spear::node('3')->execute($this->rightCodeWithInput);
+	}
+
+	public function test_go_lang_default_version_code_has_syntax_errors(): void
 	{
 		$data = Spear::go()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}
 
-	public function test_go_lang_code_works_fine_with_input(): void
+	public function test_go_lang_1_code_has_syntax_errors(): void
 	{
-		$data = Spear::go()->execute($this->rightCodeWithInput, 100);
+		$data = Spear::go('1')->execute($this->wrongCodeWithoutInput);
 
-		$this->assertEquals(0, $data->getResultCode());
-		$this->assertEquals(200, $data->getOutput());
+		$this->assertNotEquals(0, $data->getResultCode());
+	}
+
+	public function test_go_lang_1_17_code_has_syntax_errors(): void
+	{
+		$data = Spear::go('1.17')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertNotEquals(0, $data->getResultCode());
+	}
+
+	public function test_go_lang_1_18_code_has_syntax_errors(): void
+	{
+		$data = Spear::go('1.18')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertNotEquals(0, $data->getResultCode());
 	}
 }
