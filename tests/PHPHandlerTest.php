@@ -41,7 +41,7 @@ class PHPHandlerTest extends TestCase
 	public function test_php_with_incorrect_version(): void
 	{
 		$this->expectException(Exception::class);
-		Spear::node('10')->execute($this->wrongCodeWithoutInput);
+		Spear::node('10')->execute($this->rightCodeWithInput);
 	}
 
 	public function test_php_code_has_syntax_errors(): void

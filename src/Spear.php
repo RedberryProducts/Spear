@@ -3,9 +3,11 @@
 namespace Redberry\Spear;
 
 use Exception;
+use Redberry\Spear\Handlers\CppHandler;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\PythonHandler;
 use Redberry\Spear\Handlers\RubyHandler;
+use Redberry\Spear\Handlers\RustHandler;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\Handlers\NodeHandler;
 use Redberry\Spear\Interfaces\Handler;
@@ -75,9 +77,10 @@ class Spear
 	/**
 	 * Use cpp handler.
 	 */
-	public function cpp(): self
+	public function cpp(string $version = '14'): self
 	{
-		$this->handler(self::CPP);
+		$handler = new CppHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
@@ -104,9 +107,10 @@ class Spear
 	/**
 	 * Use rust handler.
 	 */
-	public function rust(): self
+	public function rust(string $version = '1'): self
 	{
-		$this->handler(self::RUST_1);
+		$handler = new RustHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
