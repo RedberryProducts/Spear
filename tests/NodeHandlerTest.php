@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Tests;
 
+use Exception;
 use Redberry\Spear\Facades\Spear;
 use Tests\TestCase;
 
@@ -69,13 +70,41 @@ class NodeHandlerTest extends TestCase
 
 	public function test_node_with_incorrect_code_is_working(): void
 	{
-		$this->expectException(\Exception::class);
+		$this->expectException(Exception::class);
 		Spear::node('21')->execute($this->wrongCodeWithoutInput);
 	}
 
-	public function test_node_code_has_syntax_errors(): void
+	public function test_node_default_version_code_has_syntax_errors(): void
 	{
 		$data = Spear::node()->execute($this->wrongCodeWithoutInput);
+
+		$this->assertEquals(1, $data->getResultCode());
+	}
+
+	public function test_node_14_code_has_syntax_errors(): void
+	{
+		$data = Spear::node('14')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertEquals(1, $data->getResultCode());
+	}
+
+	public function test_node_16_code_has_syntax_errors(): void
+	{
+		$data = Spear::node('16')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertEquals(1, $data->getResultCode());
+	}
+
+	public function test_node_17_code_has_syntax_errors(): void
+	{
+		$data = Spear::node('17')->execute($this->wrongCodeWithoutInput);
+
+		$this->assertEquals(1, $data->getResultCode());
+	}
+
+	public function test_node_18_code_has_syntax_errors(): void
+	{
+		$data = Spear::node('18')->execute($this->wrongCodeWithoutInput);
 
 		$this->assertEquals(1, $data->getResultCode());
 	}
