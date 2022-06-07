@@ -9,12 +9,12 @@ use Redberry\Spear\Interfaces\Handler;
 class JavaHandler extends BaseHandler implements Handler
 {
 	/**
-	 * Selected node version.
+	 * Selected java version.
 	 */
 	private string $version;
 
 	/**
-	 * Available node versions list.
+	 * Available java versions list.
 	 */
 	private array $versions = [
 		'11' => 'openjdk:11',

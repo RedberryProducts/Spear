@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Redberry\Spear\Spear cSharp(string $version = '6.12')
  * @method static \Redberry\Spear\Spear go(string $version = '1.18')
  * @method static \Redberry\Spear\Spear java(string $version = '11')
- * @method static \Redberry\Spear\Spear perl()
+ * @method static \Redberry\Spear\Spear perl(string $version = '5.34')
  *
  * @see \Redberry\Spear\Spear
  */

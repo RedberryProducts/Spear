@@ -7,6 +7,7 @@ use Redberry\Spear\Handlers\CppHandler;
 use Redberry\Spear\Handlers\CSharpHandler;
 use Redberry\Spear\Handlers\GoHandler;
 use Redberry\Spear\Handlers\JavaHandler;
+use Redberry\Spear\Handlers\PerlHandler;
 use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Handlers\PythonHandler;
 use Redberry\Spear\Handlers\RubyHandler;
@@ -150,9 +151,10 @@ class Spear
 	/**
 	 * Use perl handler.
 	 */
-	public function perl(): self
+	public function perl(string $version = '5.34'): self
 	{
-		$this->handler(self::PERL);
+		$handler = new PerlHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 }
