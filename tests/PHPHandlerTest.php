@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Tests;
 
+use Exception;
 use Redberry\Spear\Facades\Spear;
 use Tests\TestCase;
 
@@ -30,9 +31,29 @@ class PHPHandlerTest extends TestCase
 		$this->assertEquals('hello world!', $data->getOutput());
 	}
 
+	public function test_php_8_code_is_working_without_input(): void
+	{
+		$data = Spear::php('8')->execute($this->rightCodeWithoutInput);
+		$this->assertEquals(0, $data->getResultCode());
+		$this->assertEquals('hello world!', $data->getOutput());
+	}
+
+	public function test_php_with_incorrect_version(): void
+	{
+		$this->expectException(Exception::class);
+		Spear::node('10')->execute($this->wrongCodeWithoutInput);
+	}
+
 	public function test_php_code_has_syntax_errors(): void
 	{
 		$data = Spear::php()->execute($this->wrongCodeWithoutInput);
+
+		$this->assertNotEquals(0, $data->getResultCode());
+	}
+
+	public function test_php_8_code_has_syntax_errors(): void
+	{
+		$data = Spear::php('8')->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
 	}

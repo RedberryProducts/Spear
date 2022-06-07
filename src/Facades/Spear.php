@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Redberry\Spear\Spear node(string $version = '14')
- * @method static \Redberry\Spear\Spear php()
+ * @method static \Redberry\Spear\Spear php(string $version = '8')
  * @method static \Redberry\Spear\Spear cpp()
  * @method static \Redberry\Spear\Spear python()
  * @method static \Redberry\Spear\Spear ruby()

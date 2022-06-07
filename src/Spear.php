@@ -3,30 +3,13 @@
 namespace Redberry\Spear;
 
 use Exception;
+use Redberry\Spear\Handlers\PHPHandler;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\Handlers\NodeHandler;
 use Redberry\Spear\Interfaces\Handler;
 
 class Spear
 {
-	const CPP = 'cpp';
-
-	const PHP_8 = 'php:8.1';
-
-	const PYTHON_3 = 'python:3.10';
-
-	const RUBY_3 = 'ruby:3';
-
-	const RUST_1 = 'rust:1';
-
-	const C_SHARP = 'csharp';
-
-	const GO_LANG = 'golang:1.18';
-
-	const JAVA = 'openjdk:11';
-
-	const PERL = 'perl:5.34';
-
 	/**
 	 * Select default handler.
 	 */
@@ -80,9 +63,10 @@ class Spear
 	/**
 	 * Use php handler.
 	 */
-	public function php(): self
+	public function php(string $version = '8'): self
 	{
-		$this->handler(self::PHP_8);
+		$handler = new PHPHandler($version);
+		$this->handler($handler);
 		return $this;
 	}
 
