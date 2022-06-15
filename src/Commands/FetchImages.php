@@ -124,9 +124,7 @@ class FetchImages extends Command
 				$this->runExecForImages($rustVersions);
 				break;
 			default:
-				$this->error(
-					" This image doesn't exist:  $image "
-				);
+				$this->error(" This image doesn't exist: $image ");
 		}
 	}
 
