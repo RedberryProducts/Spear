@@ -6,10 +6,23 @@ use Illuminate\Console\Command;
 
 class FetchImages extends Command
 {
+	/**
+	 * The name and signature of the console command.
+	 *
+	 * @var string
+	 */
 	protected $signature = 'spear:pull {image?}';
 
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
 	protected $description = 'Fetch docker images';
 
+	/**
+	 * Languages array for fetching images.
+	 */
 	private array $languages = [
 		'node',
 		'cpp',
@@ -23,6 +36,9 @@ class FetchImages extends Command
 		'rust',
 	];
 
+	/**
+	 * Execute the console command.
+	 */
 	public function handle()
 	{
 		if ($this->argument('image'))
@@ -35,6 +51,9 @@ class FetchImages extends Command
 		}
 	}
 
+	/**
+	 * Checks if it exists images
+	 */
 	private function fetchImage($image)
 	{
 		switch ($image) {
@@ -128,6 +147,9 @@ class FetchImages extends Command
 		}
 	}
 
+	/**
+	 * Get languages and after that fetching them.
+	 */
 	private function fetchAllImages()
 	{
 		foreach ($this->languages as $language)
@@ -137,6 +159,9 @@ class FetchImages extends Command
 		$this->info('All images have been successfully loaded.');
 	}
 
+	/**
+	 * Issues an order to pull the docker image
+	 */
 	private function runExecForImages($versions)
 	{
 		$output = null;
