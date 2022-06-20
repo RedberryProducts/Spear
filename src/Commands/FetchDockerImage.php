@@ -129,7 +129,6 @@ class FetchDockerImage extends Command
 	{
 		foreach ($this->languages as $language)
 		{
-			echo "$language : \n";
 			$this->fetchImage($language);
 		}
 		$this->info('All images have been successfully loaded.');
