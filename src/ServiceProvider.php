@@ -3,7 +3,7 @@
 namespace Redberry\Spear;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Redberry\Spear\Commands\FetchImages;
+use Redberry\Spear\Commands\FetchDockerImage;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -14,7 +14,7 @@ class ServiceProvider extends LaravelServiceProvider
 		if ($this->app->runningInConsole())
 		{
 			$this->commands([
-				FetchImages::class,
+				FetchDockerImage::class,
 			]);
 		}
 	}

@@ -16,7 +16,7 @@ class NodeHandler extends BaseHandler implements Handler
 	/**
 	 * Available node versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'14' => 'node:14',
 		'16' => 'node:16',
 		'17' => 'node:17',

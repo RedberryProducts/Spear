@@ -16,7 +16,7 @@ class JavaHandler extends BaseHandler implements Handler
 	/**
 	 * Available java versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'11' => 'openjdk:11',
 	];
 

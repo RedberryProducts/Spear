@@ -11,7 +11,7 @@ class GoHandler extends BaseHandler implements Handler
 	/**
 	 * Available go versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'1'    => 'golang:1',
 		'1.17' => 'golang:1.17',
 		'1.18' => 'golang:1.18',

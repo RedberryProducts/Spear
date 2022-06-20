@@ -16,7 +16,7 @@ class CppHandler extends BaseHandler implements Handler
 	/**
 	 * Available c++ versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'14' => 'giunashvili/cpp',
 	];
 
