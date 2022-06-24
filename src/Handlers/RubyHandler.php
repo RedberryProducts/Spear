@@ -16,7 +16,7 @@ class RubyHandler extends BaseHandler implements Handler
 	/**
 	 * Available ruby versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'2'      => 'ruby:2',
 		'3'      => 'ruby:3',
 		'3.1'    => 'ruby:3.1',

@@ -16,7 +16,7 @@ class PerlHandler extends BaseHandler implements Handler
 	/**
 	 * Available perl versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'5'    => 'perl:5',
 		'5.34' => 'perl:5.34',
 	];

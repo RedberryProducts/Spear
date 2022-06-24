@@ -11,7 +11,7 @@ class CSharpHandler extends BaseHandler implements Handler
 	/**
 	 * Available C# versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'6'    => 'mono:6',
 		'6.10' => 'mono:6.10',
 		'6.12' => 'mono:6.12',

@@ -16,7 +16,7 @@ class RustHandler extends BaseHandler implements Handler
 	/**
 	 * Available rust versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'1' => 'rust:1',
 	];
 

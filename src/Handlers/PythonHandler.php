@@ -16,7 +16,7 @@ class PythonHandler extends BaseHandler implements Handler
 	/**
 	 * Available python versions list.
 	 */
-	private array $versions = [
+	public static array $versions = [
 		'3.7'      => 'python:3.7',
 		'3.8'      => 'python:3.8',
 		'3.9'      => 'python:3.9',
