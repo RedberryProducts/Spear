@@ -29,7 +29,7 @@ class DockerImagesList extends Command
 	 *
 	 * @var string
 	 */
-	protected $description = 'Description';
+	protected $description = 'List all images';
 
 	/**
 	 * The terminal width resolver callback.
