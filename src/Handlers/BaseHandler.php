@@ -2,6 +2,7 @@
 
 namespace Redberry\Spear\Handlers;
 
+use Exception;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\DataStructures\Data as OutputData;
 
@@ -275,9 +276,18 @@ class BaseHandler
 
 	/**
 	 * Run prepared command in the docker container.
+	 *
+	 * @throws Exception
 	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
+		$checkImageResultCode = null;
+		exec('docker inspect -f --type=image ' . $this->image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
+		if ($checkImageResultCode !== 0)
+		{
+			throw new Exception("Image $this->image does not exist locally, please pull the image before using it.");
+		}
+
 		$command = base64_encode($command);
 		$executableCommand = "echo $command | base64 -di | docker run -i --rm -w /app $this->image sh 2>&1";
 		exec($executableCommand, $output, $resultCode);
