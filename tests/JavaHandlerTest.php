@@ -38,6 +38,8 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_default_version_code_is_working_without_input(): void
 	{
+		exec('docker pull openjdk:11');
+
 		$data = Spear::java()->execute($this->rightCodeWithoutInput);
 
 		$this->assertEquals(0, $data->getResultCode());
@@ -46,6 +48,8 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_default_version_code_has_syntax_errors(): void
 	{
+		exec('docker pull openjdk:11');
+
 		$data = Spear::java()->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
@@ -53,6 +57,8 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_11_code_has_syntax_errors(): void
 	{
+		exec('docker pull openjdk:11');
+
 		$data = Spear::java('11')->execute($this->wrongCodeWithoutInput);
 
 		$this->assertNotEquals(0, $data->getResultCode());
@@ -60,6 +66,8 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_default_version_code_works_fine_with_input(): void
 	{
+		exec('docker pull openjdk:11');
+
 		$data = Spear::java()->execute($this->rightCodeWithInput, 'Hello');
 
 		$this->assertEquals(0, $data->getResultCode());
@@ -68,10 +76,26 @@ class JavaHandlerTest extends TestCase
 
 	public function test_java_11_code_works_fine_with_input(): void
 	{
+		exec('docker pull openjdk:11');
+
 		$data = Spear::java('11')->execute($this->rightCodeWithInput, 'Hello');
 
 		$this->assertEquals(0, $data->getResultCode());
 		$this->assertEquals('Hello, World!', $data->getOutput());
+	}
+
+	public function test_when_java_default_version_image_not_pulled()
+	{
+		exec("docker rmi --force $(docker images | grep 'openjdk') >/dev/null 2>&1");
+		$this->expectException(Exception::class);
+		Spear::java()->execute($this->rightCodeWithInput, 'Hello');
+	}
+
+	public function test_when_java_11_image_not_pulled()
+	{
+		exec("docker rmi --force $(docker images | grep 'openjdk') >/dev/null 2>&1");
+		$this->expectException(Exception::class);
+		Spear::java('11')->execute($this->rightCodeWithInput, 'Hello');
 	}
 
 	public function test_java_with_incorrect_version(): void

@@ -27,12 +27,12 @@ class CppHandler extends BaseHandler implements Handler
 	{
 		parent::__construct();
 
-		if (!isset($this->versions[$version]))
+		if (!isset(self::$versions[$version]))
 		{
 			throw new Exception('Please, provide correct version.');
 		}
 
-		$this->version = $this->versions[$version];
+		$this->version = self::$versions[$version];
 	}
 
 	/**
