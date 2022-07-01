@@ -12,6 +12,10 @@ class Docker
 
 	protected string $shellCommand;
 
+	protected string $workDirectory = '';
+
+	protected string $mountDirectory = '';
+
 	private function setImage(string $image = ''): void
 	{
 		$this->image = $image;
@@ -20,6 +24,16 @@ class Docker
 	private function setShell(string $shell = ''): void
 	{
 		$this->shellCommand = $shell;
+	}
+
+	private function setWorkDir($workDir = '/app'): void
+	{
+		$this->workDirectory = $workDir;
+	}
+
+	private function setMountDir($mountDir)
+	{
+		$this->mountDirectory = $mountDir;
 	}
 
 	public function use($image): self
@@ -35,6 +49,27 @@ class Docker
 	{
 		$this->setShell($shell);
 		return $this->compileAndRun();
+	}
+
+	public function workDir($workDir = '/app'): self
+	{
+		$this->setWorkDir($workDir);
+		return $this;
+	}
+
+	public function mountDir($mountDir, $workDir = ''): self
+	{
+		if ($workDir === '')
+		{
+			$mountDir = "$mountDir:$this->workDirectory";
+		}
+		else
+		{
+			$mountDir = "$mountDir:$workDir";
+		}
+
+		$this->setMountDir($mountDir);
+		return $this;
 	}
 
 	/**
@@ -79,6 +114,9 @@ class Docker
 			throw new Exception("Image $this->image does not exist locally, please pull the image before using it.");
 		}
 
-		exec("docker run $image bash -c '$this->shellCommand'", $output, $resultCode);
+		$workDir = $this->workDirectory ? '-w ' . $this->workDirectory : null;
+		$mountDir = $this->mountDirectory ? '-v ' . $this->mountDirectory : null;
+
+		exec("docker run $workDir $mountDir $image bash -c '$this->shellCommand'", $output, $resultCode);
 	}
 }
