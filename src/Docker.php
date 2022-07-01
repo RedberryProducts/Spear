@@ -8,34 +8,62 @@ use Redberry\Spear\Interfaces\Data;
 
 class Docker
 {
+	/**
+	 * Docker image, with which the
+	 * docker container should be executed.
+	 */
 	protected string $image;
 
+	/**
+	 * Shell command to run the container command.
+	 */
 	protected string $shellCommand;
 
+	/**
+	 * Working directory path.
+	 */
 	protected string $workDirectory = '';
 
+	/**
+	 * Mount working directory path.
+	 */
 	protected string $mountDirectory = '';
 
+	/**
+	 * Set docker image to use for container creation.
+	 */
 	private function setImage(string $image = ''): void
 	{
 		$this->image = $image;
 	}
 
+	/**
+	 * Set shell command to run bash command.
+	 */
 	private function setShell(string $shell = ''): void
 	{
 		$this->shellCommand = $shell;
 	}
 
+	/**
+	 * Set working dir path.
+	 */
 	private function setWorkDir($workDir = '/app'): void
 	{
 		$this->workDirectory = $workDir;
 	}
 
+	/**
+	 * Set mount directory to copy into the docker working dir.
+	 */
 	private function setMountDir($mountDir)
 	{
 		$this->mountDirectory = $mountDir;
 	}
 
+	/**
+	 * Method for use docker images.
+	 */
 	public function use($image): self
 	{
 		$this->setImage($image);
@@ -43,6 +71,8 @@ class Docker
 	}
 
 	/**
+	 * Method use shell command for bash.
+	 *
 	 * @throws Exception
 	 */
 	public function shell($shell = ''): Data
@@ -51,12 +81,18 @@ class Docker
 		return $this->compileAndRun();
 	}
 
+	/**
+	 * Method for selecting working directory.
+	 */
 	public function workDir($workDir = '/app'): self
 	{
 		$this->setWorkDir($workDir);
 		return $this;
 	}
 
+	/**
+	 * Method for coping file into the docker working directory.
+	 */
 	public function mountDir($mountDir, $workDir = ''): self
 	{
 		if ($workDir === '')
@@ -73,6 +109,8 @@ class Docker
 	}
 
 	/**
+	 * Creates new docker, run it and returns formatted docker.
+	 *
 	 * @throws Exception
 	 */
 	private function compileAndRun(): Data
@@ -85,6 +123,9 @@ class Docker
 		return $this->formatOutput($output, $resultCode);
 	}
 
+	/**
+	 * Format and normalize return data from docker.
+	 */
 	private function formatOutput(array $output, int $resultCode): Data
 	{
 		$data = new OutputData();
@@ -103,6 +144,8 @@ class Docker
 	}
 
 	/**
+	 * Run prepared command in the docker container.
+	 *
 	 * @throws Exception
 	 */
 	private function runInDocker(string $image, array &$output = [], int &$resultCode = 0): void
