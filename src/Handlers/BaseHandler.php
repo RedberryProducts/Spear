@@ -256,6 +256,7 @@ class BaseHandler
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
+		
 		$timeout = $this->timeout . 's';
 
 		if ($this->input !== '')
@@ -282,14 +283,17 @@ class BaseHandler
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
 		$checkImageResultCode = null;
+		
 		exec('docker inspect -f --type=image ' . $this->image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
+		
 		if ($checkImageResultCode !== 0)
 		{
 			throw new Exception("Image $this->image does not exist locally, please pull the image before using it.");
 		}
 
+		$base64Command = PHP_OS === 'Darwin' ? 'base64 -d' : 'base64 -di';
 		$command = base64_encode($command);
-		$executableCommand = "echo $command | base64 -di | docker run -i --rm -w /app $this->image sh 2>&1";
+		$executableCommand = "echo $command | $base64Command | docker run -i --rm -w /app $this->image sh 2>&1";
 		exec($executableCommand, $output, $resultCode);
 	}
 }
