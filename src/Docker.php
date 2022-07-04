@@ -15,7 +15,7 @@ class Docker
 	protected string $image;
 
 	/**
-	 * Shell command to run the container command.
+	 * Shell command to run in the container shell.
 	 */
 	protected string $shellCommand;
 
@@ -38,7 +38,7 @@ class Docker
 	}
 
 	/**
-	 * Set shell command to run bash command.
+	 * Set shell command to run in the container.
 	 */
 	private function setShell(string $shell = ''): void
 	{
@@ -62,7 +62,7 @@ class Docker
 	}
 
 	/**
-	 * Method for use docker images.
+	 * Set the image to use for the container creation.
 	 */
 	public function use($image): self
 	{
@@ -71,7 +71,7 @@ class Docker
 	}
 
 	/**
-	 * Method use shell command for bash.
+	 * Run shell command in the container.
 	 *
 	 * @throws Exception
 	 */
@@ -91,7 +91,7 @@ class Docker
 	}
 
 	/**
-	 * Method for coping file into the docker working directory.
+	 * The method for the coping folder is the docker working directory.
 	 */
 	public function mountDir($mountDir, $workDir = ''): self
 	{
@@ -109,7 +109,7 @@ class Docker
 	}
 
 	/**
-	 * Creates new docker, run it and returns formatted docker.
+	 * Create a new docker container, run and return formatted output.
 	 *
 	 * @throws Exception
 	 */
@@ -124,7 +124,7 @@ class Docker
 	}
 
 	/**
-	 * Format and normalize return data from docker.
+	 * Format and normalize return data from the docker container.
 	 */
 	private function formatOutput(array $output, int $resultCode): Data
 	{
