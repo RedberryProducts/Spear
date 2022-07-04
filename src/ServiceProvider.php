@@ -11,6 +11,7 @@ class ServiceProvider extends LaravelServiceProvider
 	public function boot()
 	{
 		$this->app->singleton('redberry.spear', Spear::class);
+		$this->app->singleton('redberry.docker', Docker::class);
 
 		if ($this->app->runningInConsole())
 		{
