@@ -144,6 +144,58 @@ class Docker
 	}
 
 	/**
+	 * The method return pulled or not docker image.
+	 */
+	public function imageExistsLocally($image): bool
+	{
+		$checkImageResultCode = null;
+		exec('docker inspect -f --type=image ' . $image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
+		return !($checkImageResultCode !== 0);
+	}
+
+	/**
+	 * The method return installed or not docker.
+	 */
+	public function isDockerInstalled(): bool
+	{
+		exec('docker -v', $_, $resultCode);
+		return !($resultCode !== 0);
+	}
+
+	/**
+	 * The method remove docker image.
+	 */
+	public function pruneImage($image): void
+	{
+		if ($this->imageExistsLocally($image))
+		{
+			exec("docker image rm $image >/dev/null 2>&1");
+		}
+	}
+
+	/**
+	 * The method remove docker image with force.
+	 */
+	public function pruneImageForcibly($image): void
+	{
+		if ($this->imageExistsLocally($image))
+		{
+			exec("docker image rm $image -f >/dev/null 2>&1");
+		}
+	}
+
+	/**
+	 * The method pulled docker image.
+	 */
+	public function pull($image): void
+	{
+		if (!$this->imageExistsLocally($image))
+		{
+			exec("docker pull $image");
+		}
+	}
+
+	/**
 	 * Run prepared command in the docker container.
 	 *
 	 * @throws Exception
