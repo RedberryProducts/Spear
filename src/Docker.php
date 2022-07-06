@@ -144,7 +144,7 @@ class Docker
 	}
 
 	/**
-	 * The method return pulled or not docker image.
+	 * Determine if the docker image exists locally.
 	 */
 	public function imageExistsLocally($image): bool
 	{
@@ -154,7 +154,7 @@ class Docker
 	}
 
 	/**
-	 * The method return installed or not docker.
+	 * Determine if docker is installed
 	 */
 	public function isDockerInstalled(): bool
 	{
@@ -163,7 +163,7 @@ class Docker
 	}
 
 	/**
-	 * The method remove docker image.
+	 * Remove docker image if it exists locally.
 	 */
 	public function pruneImage($image): void
 	{
@@ -174,7 +174,7 @@ class Docker
 	}
 
 	/**
-	 * The method remove docker image with force.
+	 * Remove docker image even if there are containers based on this image.
 	 */
 	public function pruneImageForcibly($image): void
 	{
@@ -185,7 +185,7 @@ class Docker
 	}
 
 	/**
-	 * The method pulled docker image.
+	 * Pull docker image if it does not exist locally.
 	 */
 	public function pull($image): void
 	{
