@@ -2,37 +2,46 @@
 
 namespace Redberry\Spear;
 
-class Request 
+use Exception;
+
+class Request
 {
-    private string $socket;
+	private string $socket;
 
-    private string $version;
+	private string $version;
 
-    public function __construct($socket = null)
-    {
-        if(! $socket) 
-        {
-            $this->socket = '/var/run/docker.sock';    
-        }
+	/**
+	 * @throws Exception
+	 */
+	public function __construct($socket = null)
+	{
+		if (!$socket)
+		{
+			if (is_null(config('spear')))
+			{
+				throw new Exception('Please publish the config file by running \'php artisan vendor:publish --tag=spear-config\'');
+			}
 
-        $this->version = 'v1.41';
-    }
+			$this->socket = config('spear.socket');
+		}
 
-    public function get(string $uri): array|object
-    {
-        $url = $this->buildURL($uri);
-        $data = '';
-    
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_UNIX_SOCKET_PATH, $this->socket);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $data = curl_exec($ch);
-        return json_decode($data);
-    }
+		$this->version = 'v1.41';
+	}
 
-    private function buildURL($uri) 
-    {
-        return 'http:/' . $this->version . $uri;
-    }
+	public function get(string $uri): array|object
+	{
+		$url = $this->buildURL($uri);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_UNIX_SOCKET_PATH, $this->socket);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$data = curl_exec($ch);
+		return json_decode($data);
+	}
+
+	private function buildURL($uri)
+	{
+		return 'http:/' . $this->version . $uri;
+	}
 }

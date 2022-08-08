@@ -20,5 +20,17 @@ class ServiceProvider extends LaravelServiceProvider
 				DockerImagesList::class,
 			]);
 		}
+
+		if ($this->app->runningInConsole())
+		{
+			$this->registerPublishing();
+		}
+	}
+
+	protected function registerPublishing()
+	{
+		$this->publishes([
+			__DIR__ . '/../config/spear.php' => config_path('spear.php'),
+		], 'spear-config');
 	}
 }
