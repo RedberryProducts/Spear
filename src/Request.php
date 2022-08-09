@@ -2,13 +2,27 @@
 
 namespace Redberry\Spear;
 
+use CurlHandle;
 use Exception;
 
 class Request
 {
+    /**
+     * TCP or unix socket that will
+     * Be used as a docker server.
+     */
 	private string $socket;
 
+    /**
+     * Docker Engine API version.
+     */
 	private string $version;
+
+    /**
+     * cURL resource that will be used for 
+     * Sending request to the docker server.
+     */
+    private CurlHandle $curlHandle;
 
 	/**
 	 * @throws Exception
@@ -26,37 +40,91 @@ class Request
 		}
 
 		$this->version = 'v1.41';
+
+        $this->createCURL();
 	}
 
-	public function get(string $uri): array|object
-	{
-		$url = $this->buildURL($uri);
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_UNIX_SOCKET_PATH, $this->socket);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$data = curl_exec($ch);
-		return json_decode($data);
-	}
-
-    public function post(string $uri, string $image)
+    /**
+     * Create cURL resource.
+     */
+    private function createCURL()
     {
-        $url = $this->buildURL($uri);
+        $this->curlHandle = curl_init();
+		curl_setopt($this->curlHandle, CURLOPT_UNIX_SOCKET_PATH, $this->socket);
+		curl_setopt($this->curlHandle, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->curlHandle, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    }
 
-        $ch = curl_init();
+    /**
+     * Set cURL url.
+     */
+    private function setCurlUrl(string $uri): void
+    {
+		$url = $this->buildURL($uri);
+		curl_setopt($this->curlHandle, CURLOPT_URL, $url);
+    }
 
-        curl_setopt($ch, CURLOPT_UNIX_SOCKET_PATH, $this->socket);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-Type: application/json' ));
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, ["Image" => $image]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    /**
+     * Set request body and ultimately make the request
+     * Method as Post.
+     */
+    private function setRequestBody($data = null): void
+    {
+        if($data && gettype($data) === 'array') 
+        {
+            curl_setopt(
+                $this->curlHandle, 
+                CURLOPT_POSTFIELDS, 
+                json_encode($data),
+            );
+        }
+    }
 
-        $data = curl_exec($ch);
+    /**
+     * Make curl request to Docker server.
+     */
+    private function makeRequest()
+    {
+        $data = curl_exec($this->curlHandle);
         return json_decode($data);
     }
 
+    /**
+     * Make get request to the Docker server.
+     */
+	public function get(string $uri): array|object
+	{
+        $this->setCurlUrl($uri);
+        return $this->makeRequest();
+	}
+
+    /**
+     * Make post request to the Docker server.
+     */
+    public function post(string $uri, $body = null)
+    {
+        $url = $this->buildURL($uri);
+        $this->setCurlUrl($url);
+        $this->setRequestBody($body);
+        return $this->makeRequest();
+    }
+
+	/**
+     * Make delete request to the Docker server.
+     */
+    public function delete(string $uri, $body = null)
+    {
+        $url = $this->buildURL($uri);
+        $this->setCurlUrl($url);
+        $this->setRequestBody($body);
+		curl_setopt($this->curlHandle, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        return $this->makeRequest();
+    }
+
+    /**
+     * Build url with Docker Engine API version and 
+     * Provided uri.
+     */
 	private function buildURL($uri)
 	{
 		return 'http:/' . $this->version . $uri;
