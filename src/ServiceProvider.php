@@ -12,6 +12,7 @@ class ServiceProvider extends LaravelServiceProvider
 	{
 		$this->app->singleton('redberry.spear', Spear::class);
 		$this->app->singleton('redberry.docker', Docker::class);
+		$this->app->singleton('redberry.request', Request::class);
 
 		if ($this->app->runningInConsole())
 		{
