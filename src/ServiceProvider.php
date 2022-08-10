@@ -12,6 +12,7 @@ class ServiceProvider extends LaravelServiceProvider
 	{
 		$this->app->singleton('redberry.spear', Spear::class);
 		$this->app->singleton('redberry.docker', Docker::class);
+		$this->app->singleton('redberry.request', Request::class);
 
 		if ($this->app->runningInConsole())
 		{
@@ -20,5 +21,17 @@ class ServiceProvider extends LaravelServiceProvider
 				DockerImagesList::class,
 			]);
 		}
+
+		if ($this->app->runningInConsole())
+		{
+			$this->registerPublishing();
+		}
+	}
+
+	protected function registerPublishing()
+	{
+		$this->publishes([
+			__DIR__ . '/../config/spear.php' => config_path('spear.php'),
+		], 'spear-config');
 	}
 }
