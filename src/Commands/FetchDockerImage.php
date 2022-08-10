@@ -3,6 +3,7 @@
 namespace Redberry\Spear\Commands;
 
 use Illuminate\Console\Command;
+use Redberry\Spear\Facades\Request;
 use Redberry\Spear\Handlers\CppHandler;
 use Redberry\Spear\Handlers\CSharpHandler;
 use Redberry\Spear\Handlers\GoHandler;
@@ -143,7 +144,7 @@ class FetchDockerImage extends Command
 		$bar->start();
 		foreach ($versions as $version)
 		{
-			exec('docker pull ' . $version);
+			Request::post("/images/create?fromImage=$version");
 			$bar->advance();
 			echo ' ' . $version . ' has been successfully loaded.';
 		}

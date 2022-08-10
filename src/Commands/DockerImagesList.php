@@ -3,6 +3,7 @@
 namespace Redberry\Spear\Commands;
 
 use Illuminate\Console\Command;
+use Redberry\Spear\Facades\Docker;
 use Redberry\Spear\Handlers\CppHandler;
 use Redberry\Spear\Handlers\CSharpHandler;
 use Redberry\Spear\Handlers\GoHandler;
@@ -68,7 +69,7 @@ class DockerImagesList extends Command
 				0
 			));
 
-			$result = $resultCode === 0 ? ' [<fg=green>Pulled</>]' : ' [<fg=red>Not Pulled</>]';
+			$result = $resultCode ? ' [<fg=green>Pulled</>]' : ' [<fg=red>Not Pulled</>]';
 
 			$this->line(strtoupper("<options=bold>$key</>") . $dots . $result);
 		}
@@ -79,16 +80,14 @@ class DockerImagesList extends Command
 	 */
 	private function checkImagesVersions($versions)
 	{
-		$output = null;
-		$resultCode = null;
+		$resultCode = true;
 
 		foreach ($versions as $version)
 		{
-			exec('docker inspect -f --type=image ' . $version . ' >/dev/null 2>&1', $output, $resultCode);
-
-			if ($resultCode === 1)
+			$resultCode = Docker::imageExistsLocally($version);
+			if (!$resultCode)
 			{
-				return $resultCode;
+				return false;
 			}
 		}
 
