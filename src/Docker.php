@@ -5,6 +5,7 @@ namespace Redberry\Spear;
 use Exception;
 use Redberry\Spear\DataStructures\Data as OutputData;
 use Redberry\Spear\Interfaces\Data;
+use Redberry\Spear\Facades\Request;
 
 class Docker
 {
@@ -148,18 +149,15 @@ class Docker
 	 */
 	public function imageExistsLocally($image): bool
 	{
-		$checkImageResultCode = null;
-		exec('docker inspect -f --type=image ' . $image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
-		return !($checkImageResultCode !== 0);
-	}
-
-	/**
-	 * Determine if docker is installed
-	 */
-	public function isDockerInstalled(): bool
-	{
-		exec('docker -v', $_, $resultCode);
-		return !($resultCode !== 0);
+		try
+		{
+			$image = Request::get("/images/$image/json");
+			return (bool)$image->Id;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -169,7 +167,7 @@ class Docker
 	{
 		if ($this->imageExistsLocally($image))
 		{
-			exec("docker image rm $image >/dev/null 2>&1");
+			Request::delete("/images/$image");
 		}
 	}
 
@@ -180,7 +178,7 @@ class Docker
 	{
 		if ($this->imageExistsLocally($image))
 		{
-			exec("docker image rm $image -f >/dev/null 2>&1");
+			Request::delete("/images/$image?force=true");
 		}
 	}
 
@@ -191,7 +189,7 @@ class Docker
 	{
 		if (!$this->imageExistsLocally($image))
 		{
-			exec("docker pull $image");
+			Request::post("/images/create?fromImage=$image");
 		}
 	}
 
