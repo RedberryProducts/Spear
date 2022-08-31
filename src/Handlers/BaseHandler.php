@@ -207,6 +207,7 @@ class BaseHandler
 	{
 		$resultCode = 0;
 		$this->runInDocker($this->prepareTestForCompilationCommand(), $output, $resultCode);
+
 		return $resultCode === 0;
 	}
 
@@ -215,6 +216,7 @@ class BaseHandler
 	 */
 	private function prepareTestForCompilationCommand()
 	{
+
 		$encodedScript = base64_encode($this->code);
 
 		return <<<END
@@ -246,7 +248,7 @@ class BaseHandler
 		}
 
 		return <<<END
-            echo $this->code > $this->fileToCompiler;
+            echo $encodedCode | base64 -d > $this->fileToCompiler;
             $this->compiler $this->fileToCompiler;
             timeout $timeout $executeCommand; 
         END;
@@ -292,7 +294,7 @@ class BaseHandler
 		$container = Request::post('/containers/create', [
 			'Image'      => $this->image,
 			'Cmd'        => [
-				'bash',
+				'sh',
 				'-c',
 				$command,
 			],

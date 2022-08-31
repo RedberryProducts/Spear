@@ -88,7 +88,6 @@ class Request
 		$data = curl_exec($this->curlHandle);
 		$data = preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $data);
 		$data = trim($data);
-
 		$decodedData = json_decode($data);
 
 		if (is_null($decodedData))
