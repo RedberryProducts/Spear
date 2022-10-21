@@ -5,6 +5,7 @@ namespace Redberry\Spear;
 use Exception;
 use Redberry\Spear\DataStructures\Data as OutputData;
 use Redberry\Spear\Interfaces\Data;
+use Redberry\Spear\Facades\Request;
 
 class Docker
 {
@@ -148,18 +149,15 @@ class Docker
 	 */
 	public function imageExistsLocally($image): bool
 	{
-		$checkImageResultCode = null;
-		exec('docker inspect -f --type=image ' . $image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
-		return !($checkImageResultCode !== 0);
-	}
-
-	/**
-	 * Determine if docker is installed
-	 */
-	public function isDockerInstalled(): bool
-	{
-		exec('docker -v', $_, $resultCode);
-		return !($resultCode !== 0);
+		try
+		{
+			$image = Request::get("/images/$image/json");
+			return (bool)$image->Id;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -169,7 +167,7 @@ class Docker
 	{
 		if ($this->imageExistsLocally($image))
 		{
-			exec("docker image rm $image >/dev/null 2>&1");
+			Request::delete("/images/$image");
 		}
 	}
 
@@ -180,7 +178,7 @@ class Docker
 	{
 		if ($this->imageExistsLocally($image))
 		{
-			exec("docker image rm $image -f >/dev/null 2>&1");
+			Request::delete("/images/$image?force=true");
 		}
 	}
 
@@ -191,7 +189,7 @@ class Docker
 	{
 		if (!$this->imageExistsLocally($image))
 		{
-			exec("docker pull $image");
+			Request::post("/images/create?fromImage=$image");
 		}
 	}
 
@@ -202,16 +200,35 @@ class Docker
 	 */
 	private function runInDocker(string $image, array &$output = [], int &$resultCode = 0): void
 	{
-		$checkImageResultCode = null;
-		exec('docker inspect -f --type=image ' . $this->image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
-		if ($checkImageResultCode !== 0)
+		$imageLocally = $this->imageExistsLocally($image);
+		if (!$imageLocally)
 		{
-			throw new Exception("Image $this->image does not exist locally, please pull the image before using it.");
+			throw new Exception("Image $image does not exist locally, please pull the image before using it.");
 		}
 
-		$workDir = $this->workDirectory ? '-w ' . $this->workDirectory : null;
-		$mountDir = $this->mountDirectory ? '-v ' . $this->mountDirectory : null;
+		$workDir = $this->workDirectory ? $this->workDirectory : '/app';
+		$mountDir = $this->mountDirectory ? $this->mountDirectory : '/tmp:/tmp';
 
-		exec("docker run $workDir $mountDir $image bash -c '$this->shellCommand'", $output, $resultCode);
+		$container = Request::post('/containers/create', [
+			'Image'      => $image,
+			'Cmd'        => [
+				'bash',
+				'-c',
+				$this->shellCommand,
+			],
+			'WorkingDir' => $workDir,
+			'HostConfig' => [
+				'Binds' => [
+					$mountDir,
+				],
+			],
+			'AttachStdin' => true,
+			'Tty'         => true,
+		]);
+		Request::post("/containers/$container->Id/start");
+		$data = Request::post("/containers/$container->Id/wait");
+		$output = Request::get("/containers/$container->Id/logs?stdout=true");
+		$resultCode = $data->StatusCode;
+		$output = gettype($output) === 'string' ? $output = [$output] : $output = [$output->data];
 	}
 }

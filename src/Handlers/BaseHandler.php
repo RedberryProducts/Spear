@@ -3,6 +3,8 @@
 namespace Redberry\Spear\Handlers;
 
 use Exception;
+use Redberry\Spear\Facades\Docker;
+use Redberry\Spear\Facades\Request;
 use Redberry\Spear\Interfaces\Data;
 use Redberry\Spear\DataStructures\Data as OutputData;
 
@@ -205,6 +207,7 @@ class BaseHandler
 	{
 		$resultCode = 0;
 		$this->runInDocker($this->prepareTestForCompilationCommand(), $output, $resultCode);
+
 		return $resultCode === 0;
 	}
 
@@ -213,6 +216,7 @@ class BaseHandler
 	 */
 	private function prepareTestForCompilationCommand()
 	{
+
 		$encodedScript = base64_encode($this->code);
 
 		return <<<END
@@ -256,13 +260,12 @@ class BaseHandler
 	private function prepareScriptForInterpretation()
 	{
 		$encodedCode = base64_encode($this->code);
-		
+
 		$timeout = $this->timeout . 's';
 
 		if ($this->input !== '')
 		{
 			$encodedInput = base64_encode($this->input);
-
 			return <<<END
                 echo $encodedCode | base64 -d > $this->fileToInterpret;
                 echo $encodedInput | base64 -d | timeout $timeout $this->interpreter $this->fileToInterpret; 
@@ -282,18 +285,31 @@ class BaseHandler
 	 */
 	private function runInDocker(string $command = '', array &$output = [], int &$resultCode = 0)
 	{
-		$checkImageResultCode = null;
-		
-		exec('docker inspect -f --type=image ' . $this->image . ' >/dev/null 2>&1', $_, $checkImageResultCode);
-		
-		if ($checkImageResultCode !== 0)
+		$imageLocally = Docker::imageExistsLocally($this->image);
+		if (!$imageLocally)
 		{
 			throw new Exception("Image $this->image does not exist locally, please pull the image before using it.");
 		}
 
-		$base64Command = PHP_OS === 'Darwin' ? 'base64 -d' : 'base64 -di';
-		$command = base64_encode($command);
-		$executableCommand = "echo $command | $base64Command | docker run -i --rm -w /app $this->image sh 2>&1";
-		exec($executableCommand, $output, $resultCode);
+		$container = Request::post('/containers/create', [
+			'Image'      => $this->image,
+			'Cmd'        => [
+				'sh',
+				'-c',
+				$command,
+			],
+			'HostConfig' => [
+				'Binds' => [
+					'/tmp:/tmp',
+				],
+			],
+			'AttachStdin' => true,
+			'Tty'         => true,
+		]);
+		Request::post("/containers/$container->Id/start");
+		$data = Request::post("/containers/$container->Id/wait");
+		$output = Request::get("/containers/$container->Id/logs?stdout=true");
+		$resultCode = $data->StatusCode;
+		$output = gettype($output) === 'string' ? $output = [$output] : $output = [$output->data];
 	}
 }

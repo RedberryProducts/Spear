@@ -23,7 +23,7 @@ class NodeHandlerTest extends TestCase
             const num = +data;
             console.log(num * 2);
         }
-
+        
         process.stdin.on('data', c => data+=c);
         process.stdin.on('end', solve);
     END;
