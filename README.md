@@ -89,6 +89,15 @@ There are variety of languages available with spear. Here's a listing:
 * Java
 * Perl
 
+
 #### How does Spear work?
 Under the hood the `Spear` utilizes docker to create containers according to the handler and the language we'd like to use. Spear creates fresh new container for each execution, let's the code execute in the container, gets the output and then destroys the container.
 It's secure, flexibale and pretty amazing 😊
+
+
+---
+## About Redberry
+
+This package is built and maintained by [Redberry](https://redberry.international/), one of the few Official Premier Laravel Partner agencies worldwide. With 250+ Laravel projects shipped across 20+ countries, a 200-person team, and over a decade in the Laravel ecosystem, Redberry has helped startups, SMEs, and publicly traded enterprises in regulated industries build SaaS platforms, custom web applications, APIs, and more.
+
+[Learn about our Laravel development services](https://redberry.international/laravel-development/).
